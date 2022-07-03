@@ -20,6 +20,10 @@ export default {
         icon: 'clannad2.jpg',
         path: 'https://github.com/',
       },
+      {
+        icon: 'clannad3.jpg',
+        path: 'http://localhost:8080/admin/PostList',
+      },
     ],
     segment:[
       {
