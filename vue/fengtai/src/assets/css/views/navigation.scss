@@ -1,0 +1,7 @@
+#navigation {
+  .page {
+    padding: 16px 0;
+    overflow: hidden;
+    @include card-page;
+  }
+}
