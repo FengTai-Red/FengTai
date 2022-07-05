@@ -57,7 +57,7 @@
   export default {
     created(){
       const _this = this
-      axios.get('http://127.0.0.1:8181/post/page/1/6').then(function (resp){
+      axios.get('http://127.0.0.1:8181/post/published/page/1/6').then(function (resp){
         _this.blogData = resp.data.content;
         _this.pageFirst = resp.data.first;
         _this.pageLast = resp.data.last;
@@ -90,7 +90,7 @@
       pageNext(){
         pageNum += 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/post/page/'+ pageNum + '/6').then(function (resp){
+        axios.get('http://127.0.0.1:8181/post/published/page/'+ pageNum + '/6').then(function (resp){
           _this.blogData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;
@@ -99,7 +99,7 @@
       pagePrev(){
         pageNum -= 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/post/page/'+ pageNum+ '/6').then(function (resp){
+        axios.get('http://127.0.0.1:8181/post/published/page/'+ pageNum+ '/6').then(function (resp){
           _this.blogData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;

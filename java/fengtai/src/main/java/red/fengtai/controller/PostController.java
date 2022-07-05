@@ -59,10 +59,9 @@ public class PostController {
      * 查询published为ture的post
      * @return
      */
-    @GetMapping("/post/findAllPublished")
-    public List<Post> findByPublished(){
-        boolean published = true;
-        return postService.findByPublished(published);
+    @GetMapping("/post/published/page/{page}/{size}")
+    public Page<Post> findPageablePostByPublished(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
+        return postService.findPageablePostByPublished(page, size);
     }
 
     /**

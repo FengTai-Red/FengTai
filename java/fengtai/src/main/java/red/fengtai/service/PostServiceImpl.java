@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +31,9 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public Page<Post> findPageablePost(Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page-1, size);
+        Order order = new Order(Direction.DESC,"createTime");
+        Sort sort = Sort.by(order,order);
+        Pageable pageable = PageRequest.of(page-1, size, sort);
         return postRepository.findAll(pageable);
     }
 
@@ -77,8 +82,12 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> findByPublished(boolean published) {
-        return postRepository.findByPublished(published);
-    }
+    public Page<Post> findPageablePostByPublished(Integer page, Integer size) {
+        boolean published = true;
+        Order order = new Order(Direction.DESC,"createTime");
+        Sort sort = Sort.by(order,order);
+        Pageable pageable = PageRequest.of(page-1, size, sort);
+        return postRepository.findByPublished(published, pageable);
 
+    }
 }

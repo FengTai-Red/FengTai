@@ -4,7 +4,9 @@ import red.fengtai.entity.Post;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     
@@ -20,7 +22,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      * @param published
      * @return
      */
-    List<Post> findByPublished(boolean published);
+    Page<Post> findByPublished(boolean published, Pageable pageable);
 
     /**
      * 按category和published查询

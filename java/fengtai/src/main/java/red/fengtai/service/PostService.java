@@ -47,11 +47,11 @@ public interface PostService {
     List<Post> findByCategoryAndPublished(String category, boolean published);
 
     /**
-     * 根据published查询
+     * 根据published分页查询
      * @param category
      * @return
      */
-    List<Post> findByPublished(boolean category);
+    Page<Post> findPageablePostByPublished(Integer page, Integer size);
 
     /**
      * 保存一个Post
