@@ -29,9 +29,9 @@
     <el-pagination background layout="prev, pager, next" :page-count="Math.floor(totalElements/10)+1" @current-change="page"/>
     <!-- 编辑窗 -->
     <div>
-      <el-dialog title="提示" v-model="upDialogVisible" width="50%" >
+      <el-dialog title="编辑" v-model="upDialogVisible" width="50%" >
         <el-form ref="form" :model="updataTool" label-width="80px">
-          <el-form-item label="网站名">
+          <el-form-item label="文件名">
             <el-input v-model="updataTool.name"></el-input>
           </el-form-item>
           <el-form-item label="简介">
@@ -60,7 +60,7 @@
     <div>
       <el-dialog title="新增" v-model="addDialogVisible" width="50%" >
         <el-form ref="form" :model="addTool" label-width="80px">
-          <el-form-item label="网站名">
+          <el-form-item label="文件名">
             <el-input v-model="addTool.name"></el-input>
           </el-form-item>
           <el-form-item label="简介">

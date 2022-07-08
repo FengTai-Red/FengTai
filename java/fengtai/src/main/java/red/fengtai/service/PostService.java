@@ -44,7 +44,7 @@ public interface PostService {
      * @param published
      * @return
      */
-    List<Post> findByCategoryAndPublished(String category, boolean published);
+    Page<Post> findByCategoryAndPublished(String category, Integer page, Integer size);
 
     /**
      * 根据published分页查询

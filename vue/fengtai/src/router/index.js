@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import In from '../views/In.vue'
+import In from '../views/Blank.vue'
 
 const routes = [
   {
@@ -25,6 +25,14 @@ const routes = [
         component: () => import("../views/view/Category.vue")
       },
       {
+        path: "/CategoryList",
+        name: "分类列表",
+        icon: "",
+        qoute: "華枝春滿 天心月圓",
+        show: false,
+        component: () => import("../views/view/CategoryList.vue")
+      },
+      {
         path: "/Navigation",
         name: "导航",
         icon: "icon icon-inbox",
@@ -41,6 +49,14 @@ const routes = [
         component: () => import("../views/view/Tool.vue")
       },
       {
+        path: "/Laboratory",
+        name: "实验",
+        icon: "icon icon-heart",
+        qoute: "夢想時空 竹取飛翔",
+        show: true,
+        component: () => import("../views/view/Laboratory.vue")
+      },
+      {
         path: "/About",
         name: "关于",
         icon: "icon icon-universal-access",
@@ -49,28 +65,12 @@ const routes = [
         component: () => import("../views/view/About.vue")
       },
       {
-        path: "/Test",
-        name: "测试",
-        icon: "icon icon-comment",
-        qoute: "",
-        show: false,
-        component: () => import("../views/view/Test.vue")
-      },
-      {
         path: "/Post",
         name: "文章",
         icon: "",
         qoute: "",
         show: false,
         component: () => import("../views/view/Post.vue")
-      },
-      {
-        path: "/CategoryList",
-        name: "分类列表",
-        icon: "",
-        qoute: "華枝春滿 天心月圓",
-        show: false,
-        component: () => import("../views/view/CategoryList.vue")
       },
       {
         path: '/:pathMatch(.*)', //访问主页的时候 重定向到index页面
@@ -84,21 +84,35 @@ const routes = [
     ]
   },
   {
+    path: '/Laboratory',
+    name: "测试",
+    show: false,
+    component: () => import("../views/Blank.vue"),
+    children: [
+      {
+        path: '/Laboratory/Test',
+        name: '测试',
+        description: '测试用',
+        component: () => import("../views/view/laboratory/Test.vue")
+      },
+    ]
+  },
+  {
     path: '/Login',
     name: "登录",
     show: false,
-    component:  () => import('../views/In.vue'),
+    component:  () => import('../views/Blank.vue'),
     children: [
       {
         path: '/Login',
         name: '登录',
-        component: () => import("../views/Login.vue")
+        component: () => import("../views/admin/Login.vue")
       },
     ]
   },
   {
     path: '/admin',
-    name: "导航一",
+    name: "后台",
     show: true,
     component: () => import('../views/admin/Index.vue'),
     meta:{
@@ -130,30 +144,15 @@ const routes = [
         component: () => import("../views/admin/ToolList.vue")
       },
       {
-        path: '/admin/Test',
-        name: '测试',
-        show: true,
-        component: () => import("../views/admin/Test.vue")
-      },
-    ]
-  },
-  {
-    path: '/hide',
-    name: "隐藏的导航",
-    show: false,
-    component: () => import('../views/admin/Index.vue'),
-    meta:{
-      requireAuth: true,
-    },
-    children: [
-      {
         path: '/admin/PostAdd',
         name: '新增文章',
+        show: false,
         component: () => import("../views/admin/PostAdd.vue")
       },
       {
         path: '/admin/PostEdit',
         name: '编辑文章',
+        show: false,
         component: () => import("../views/admin/PostEdit.vue")
       },
     ]

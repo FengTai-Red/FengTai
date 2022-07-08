@@ -29,7 +29,7 @@
     <el-pagination background layout="prev, pager, next" :page-count="Math.floor(totalElements/10)+1" @current-change="page"/>
     <!-- 编辑窗 -->
     <div>
-      <el-dialog title="提示" v-model="upDialogVisible" width="50%" >
+      <el-dialog title="编辑" v-model="upDialogVisible" width="50%" >
         <el-form ref="form" :model="updataNavigation" label-width="80px">
           <el-form-item label="网站名">
             <el-input v-model="updataNavigation.name"></el-input>

@@ -77,8 +77,12 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> findByCategoryAndPublished(String category, boolean published) {
-        return postRepository.findByCategoryAndPublished(category, published);
+    public Page<Post> findByCategoryAndPublished(String category, Integer page, Integer size) {
+        boolean published = true;
+        Order order = new Order(Direction.DESC,"createTime");
+        Sort sort = Sort.by(order,order);
+        Pageable pageable = PageRequest.of(page-1, size, sort);
+        return postRepository.findByCategoryAndPublished(category, published, pageable);
     }
 
     @Override

@@ -29,6 +29,22 @@
                 </a>
               </li>
             </ul>
+            <div class="btn-group">
+              <div class="pagination" @click="pagePrev(blogData[0].category)" v-show="!pageFirst">
+                <div class="previous">
+                  <div class="btn cursor">
+                    <span>上一页</span>
+                  </div>
+                </div>
+              </div>
+              <div class="pagination" @click="pageNext(blogData[0].category)" v-show="!pageLast">
+                <div class="previous">
+                  <div class="btn cursor">
+                    <span>下一页</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -40,11 +56,14 @@
   import { useRouter } from 'vue-router';
   import { shuffle } from '@/utils';
   import axios from "axios"
+  var pageNum = 1;
   export default {
       created(){
       const _this = this
-      axios.get('http://127.0.0.1:8181/categoryList/' + this.$route.query.id).then(function(resp){
-        _this.blogData = resp.data;
+      axios.get('http://127.0.0.1:8181/categoryList/published/' + this.$route.query.id + '/page/1/6').then(function(resp){
+        _this.blogData = resp.data.content;
+        _this.pageFirst = resp.data.first;
+        _this.pageLast = resp.data.last;
       })
     }, 
     setup() {
@@ -62,6 +81,8 @@
       return {
         blogData: null,
         colors,
+        pageFirst: null,
+        pageLast: null,
       }
     },
     methods: {
@@ -73,6 +94,24 @@
           }
         })
       },
+      pageNext(category){
+        pageNum += 1;
+        const _this = this
+        axios.get('http://127.0.0.1:8181/categoryList/published/' + category + '/page/' + pageNum + '/6').then(function (resp){
+          _this.blogData = resp.data.content;
+          _this.pageFirst = resp.data.first;
+          _this.pageLast = resp.data.last;
+        })
+      },
+      pagePrev(category){
+        pageNum -= 1;
+        const _this = this
+        axios.get('http://127.0.0.1:8181/categoryList/published/' + category + '/page/' + pageNum + '/6').then(function (resp){
+          _this.blogData = resp.data.content;
+          _this.pageFirst = resp.data.first;
+          _this.pageLast = resp.data.last;
+        })
+      }
     },
   }
 </script>

@@ -30,6 +30,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      * @param published
      * @return
      */
-    List<Post> findByCategoryAndPublished(String category, boolean published);
+    Page<Post> findByCategoryAndPublished(String category, boolean published, Pageable pageable);
 
 }
