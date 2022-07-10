@@ -21,17 +21,6 @@ public class CategoryListController {
 
     @Autowired
     private PostService postService;
-
-    // /**
-    //  * 根据category查询post
-    //  * @param category
-    //  * @return
-    //  */
-    // @GetMapping("/categoryList/{category}")
-    // public List<Post> findPostByCategory(@PathVariable("category") String category){
-    //     return postService.findPostByCategory(category);
-    // }
-
     /**
      * 根据category查询published为ture的post
      * @param category
