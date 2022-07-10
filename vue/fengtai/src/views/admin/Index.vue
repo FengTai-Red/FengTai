@@ -4,11 +4,8 @@
     <el-container style="height: 800px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu router :default-openeds="['0']">
-          <el-menu-item v-for="(item) in routes[-1].children" :key="item" :index="item.path" v-show="item.show" >
+          <el-menu-item v-for="(item) in routes[3].children" :key="item" :index="item.path" v-show="item.show" >
             <p>{{item.name}}</p>
-              <!-- <el-menu-item v-for="(item2) in item" :key="item2" :index="item2.path" :class="routerpath == item2.path ? 'is-active' : ''" >
-                <p>{{item2.name}}</p>
-              </el-menu-item> -->
           </el-menu-item>
         </el-menu>
         <div class="toolbar">
