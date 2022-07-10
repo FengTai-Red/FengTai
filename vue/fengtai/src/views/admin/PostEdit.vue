@@ -1,11 +1,13 @@
 <!--  -->
 <template>
-  <el-form ref="form" :model="updataPost" label-width="80px">
-    <el-form-item label="标题">
-      <el-input v-model="updataPost.title"></el-input>
+  <el-form ref="updateForm" :model="updatePost" :rules="rules" label-width="80px">
+    <el-form-item label="标题" prop="title">
+      <el-input v-model="updatePost.title" maxlength="23"></el-input>
     </el-form-item>
-    <el-form-item label="内容">
-      <!-- <el-input v-model="updataPost.content" type="textarea"></el-input> -->
+    <el-form-item label="描述" prop="description">
+      <el-input v-model="updatePost.description" maxlength="113"></el-input>
+    </el-form-item>
+    <el-form-item label="内容" maxlength="10240">
       <div style="border: 1px solid #ccc">
         <Toolbar
           style="border-bottom: 1px solid #ccc"
@@ -15,29 +17,28 @@
         />
         <Editor
           style="height: 450px; overflow-y: hidden;"
-          v-model="updataPost.content"
+          v-model="updatePost.content"
           :defaultConfig="editorConfig"
           :mode="mode"
           @onCreated="handleCreated"
         />
       </div>
     </el-form-item>
-    <el-form-item label="首图">
-      <el-select v-model="updataPost.firstPicture" class="m-2" placeholder="Select">
+    <el-form-item label="首图" prop="firstPicture">
+      <el-select v-model="updatePost.firstPicture" class="m-2" placeholder="Select">
         <el-option v-for="item in postFirstPictureOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
     </el-form-item>
-    <el-form-item label="分类">
-      <el-select v-model="updataPost.category" class="m-2" placeholder="Select">
+    <el-form-item label="分类" prop="category">
+      <el-select v-model="updatePost.category" class="m-2" placeholder="Select">
         <el-option v-for="item in postCategoryOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
     </el-form-item >
     <el-form-item label-width="auto" label="是否为发布状态" prop="delivery">
-      <el-switch v-model="updataPost.published"/>
+      <el-switch v-model="updatePost.published"/>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm(updataPost)">更新</el-button>
-      <el-button @click="test('')">Test</el-button>
+      <el-button type="primary" @click="submitForm(updatePost)">更新</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -48,6 +49,7 @@
     label: `${idx + 10}.jpg`,
   }))
 
+  import { useRouter } from 'vue-router';
   import axios from "axios"
   import '@wangeditor/editor/dist/css/style.css' // 引入 css
   import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
@@ -57,7 +59,7 @@
     created(){
       const _this = this
       axios.get('http://127.0.0.1:8181/post/' + this.$route.query.id).then(function(resp){
-        _this.updataPost = resp.data;
+        _this.updatePost = resp.data;
       })
     },
     components: { Editor, Toolbar },
@@ -94,29 +96,51 @@
           {value: 'Code', label: 'Code'},
         ],
         postFirstPictureOptions,
-        updataPost:{
+        updatePost:{
           title: '',
-          content: '测试content',
+          description: '',
+          content: '',
           firstPicture: '',
           category: '',
           published: '',
         },
+        rules: {
+          title: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          description: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          firstPicture: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          category: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+        },
       }
     },
     methods: {
-      submitForm(updataPost){
-        const _this = this
-        axios.post('http://127.0.0.1:8181/admin/post/save', updataPost).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-          }else{
-            alert('新增失败')
+      submitForm(updatePost){
+        const that = this
+        this.$refs.updateForm.validate((valid) => {
+          if (valid) {
+            const _this = this
+            axios.post('http://127.0.0.1:8181/admin/post/save', updatePost).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('成功');
+                that.$router.push({
+                  path: "/admin/PostList",
+                })
+              }else{
+                alert('新增失败')
+              }
+            })
+          } else {
+            console.log("校验失败");
           }
         })
       },
-      test(){
-        console.log(this.updataPost.content)
-      }
     }
   }
 </script>

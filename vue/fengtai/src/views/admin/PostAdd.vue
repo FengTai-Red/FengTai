@@ -1,11 +1,13 @@
 <!--  -->
 <template>
-  <el-form ref="form" :model="addPost" label-width="80px">
-    <el-form-item label="标题">
-      <el-input v-model="addPost.title"></el-input>
+  <el-form ref="updateForm" :model="addPost" :rules="rules" label-width="80px">
+    <el-form-item label="标题" prop="title">
+      <el-input v-model="addPost.title" maxlength="23"></el-input>
     </el-form-item>
-    <el-form-item label="内容">
-      <!-- <el-input v-model="addPost.content" type="textarea"></el-input> -->
+    <el-form-item label="描述" prop="description">
+      <el-input v-model="addPost.description" maxlength="113"></el-input>
+    </el-form-item>
+    <el-form-item label="内容" maxlength="10240">
       <div style="border: 1px solid #ccc">
         <Toolbar
           style="border-bottom: 1px solid #ccc"
@@ -22,12 +24,12 @@
         />
       </div>
     </el-form-item>
-    <el-form-item label="首图">
+    <el-form-item label="首图" prop="firstPicture">
       <el-select v-model="addPost.firstPicture" class="m-2" placeholder="Select">
         <el-option v-for="item in postFirstPictureOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
     </el-form-item>
-    <el-form-item label="分类">
+    <el-form-item label="分类" prop="category">
       <el-select v-model="addPost.category" class="m-2" placeholder="Select">
         <el-option v-for="item in postCategoryOptions" :key="item.value" :label="item.label" :value="item.value"/>
       </el-select>
@@ -37,7 +39,6 @@
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(addPost)">创建</el-button>
-      <el-button @click="test('')">Test</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -95,22 +96,43 @@
           category: '',
           published: '',
         },
+        rules: {
+          title: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          description: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          firstPicture: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          category: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+        },
       }
     },
     methods: {
       submitForm(addPost){
-        const _this = this
-        axios.post('http://127.0.0.1:8181/admin/post/save', addPost).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-          }else{
-            alert('新增失败')
+        const that = this
+        this.$refs.updateForm.validate((valid) => {
+          if (valid) {
+            const _this = this
+            axios.post('http://127.0.0.1:8181/admin/post/save', addPost).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('成功');
+                that.$router.push({
+                  path: "/admin/PostList",
+                })
+              }else{
+                alert('新增失败')
+              }
+            })
+          } else {
+            console.log("校验失败");
           }
         })
       },
-      test(){
-        console.log(this.addPost)
-      }
     }
   }
 </script>

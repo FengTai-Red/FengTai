@@ -17,7 +17,7 @@
               </div>
               <button @click="downloadTool(tool.id)" class="download" type="primary" :style="{'borderColor':colors[index % 12], 'background-color':colors[index % 12]}">下载</button>
               <div class="markdown">
-                <p>{{tool.description}}</p>
+                <p style="padding-left: 30px;">{{tool.description}}</p>
               </div>
             </div>
             <div class="btn-group">

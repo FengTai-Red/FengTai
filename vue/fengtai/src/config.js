@@ -9,8 +9,8 @@ export default {
    * 关于页面
    */
   aboutOpts: {
-    avatar: 'clannad1.jpg',
-    motto: '吾心吾行澄如明镜，所作所为皆为正义',
+    avatar: 'feng.png',
+    motto: '莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生',
     contact:[
       {
         icon: 'clannad1.jpg',
@@ -22,18 +22,26 @@ export default {
       },
       {
         icon: 'clannad3.jpg',
-        path: 'http://localhost:8080/admin/PostList',
+        path: 'https://chanshiyu.com/#/',
       },
     ],
     segment:[
       {
-        label: '标题1',
-        markdown: '莫听竹林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生',
+        label: '迪奥·布兰度',
+        markdown: '人的能力是有极限的。我从短暂的人生当中学到一件事......越是玩弄计谋,就越会发现人类的能力是有极限的......除非超越人类。',
       },
       {
-        label: '标题2',
-        markdown: '蝉鸣如雨，花宵道中',
-      }
+        label: '迪亚波罗',
+        markdown: '这是一场试炼,我认为这就是一场为了战胜过去的试炼。只有战胜了那幼稚的过去，人才能有所成长。',
+      },
+      {
+        label: '恩里克·普奇',
+        markdown: '我尊敬第一个吃菇的人…不知道是刚好没吃到毒蕈，或是经验学习而能分辨呢？',
+      },
+      {
+        label: '法尼·瓦伦泰',
+        markdown: '吾心吾行澄如明镜，所作所为皆为正义',
+      },
     ]
   },
 
@@ -54,5 +62,33 @@ export default {
     '#BC9F77', // 白茶
     '#867835', // 黄海松茶
     '#B9887D', // 水がき
+  ],
+  /**
+   * 分类的图标
+   */
+  categoryIconOptions: [
+    {value: 'clannad1.jpg', label: 'clannad1.jpg'},
+    {value: 'clannad2.jpg', label: 'clannad2.jpg'},
+    {value: 'clannad3.jpg', label: 'clannad3.jpg'},
+    {value: 'clannad4.jpg', label: 'clannad4.jpg'},
+    {value: 'clannad5.jpg', label: 'clannad5.jpg'},
+    {value: 'clannad6.jpg', label: 'clannad6.jpg'},
+    {value: 'clannad7.jpg', label: 'clannad7.jpg'},
+    {value: 'clannad8.jpg', label: 'clannad8.jpg'},
+    {value: 'clannad9.jpg', label: 'clannad9.jpg'},
+  ],
+  /**
+   * 分类的背景图
+   */
+   categoryBgOptions: [
+    {value: 'A_KianaKaslana.jpg', label: 'A_KianaKaslana.jpg'},
+    {value: 'B_RaidenMei.jpg', label: 'B_RaidenMei.jpg'},
+    {value: 'C_BronyaZaychik.jpg', label: 'C_BronyaZaychik.jpg'},
+    {value: 'D_MurataHimeko.jpg', label: 'D_MurataHimeko.jpg'},
+    {value: 'E_TheresaApocalypse.jpg', label: 'E_TheresaApocalypse.jpg'},
+    {value: 'F_SeeleVollerei.jpg', label: 'F_SeeleVollerei.jpg'},
+    {value: 'G_SinMal.jpg', label: 'G_SinMal.jpg'},
+    {value: 'H_HouraijiKyuusyou.jpg', label: 'H_HouraijiKyuusyou.jpg'},
+    {value: 'I_YssringLeavtruth.jpg', label: 'I_YssringLeavtruth.jpg'},
   ],
 }

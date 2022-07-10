@@ -26,7 +26,6 @@ public class UserInterceptor implements HandlerInterceptor {
         boolean jurisdiction = user.getJurisdiction();
         //判断用户是否登录
         if (jurisdiction){
-            logger.info("有权限的 : {}");
             return true;
         }
         logger.info("没权限的 : {}");

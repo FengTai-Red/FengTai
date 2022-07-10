@@ -30,12 +30,12 @@
     <!-- 编辑窗 -->
     <div>
       <el-dialog title="编辑" v-model="upDialogVisible" width="50%" >
-        <el-form ref="form" :model="updataTool" label-width="80px">
-          <el-form-item label="文件名">
-            <el-input v-model="updataTool.name"></el-input>
+        <el-form ref="updateForm" :model="updateTool" :rules="rules" label-width="80px">
+          <el-form-item label="文件名" prop="name">
+            <el-input v-model="updateTool.name"  maxlength="7"></el-input>
           </el-form-item>
-          <el-form-item label="简介">
-            <el-input v-model="updataTool.description"></el-input>
+          <el-form-item label="简介" prop="description">
+            <el-input v-model="updateTool.description"  maxlength="23"></el-input>
           </el-form-item>
           <el-form-item label="文件">
             <span style="width: 300px;">
@@ -51,7 +51,7 @@
         <template v-slot:footer>
         <span class="dialog-footer">
           <el-button @click="upDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleUpload(updataTool)">确 定</el-button>
+          <el-button type="primary" @click="handleUpload(updateTool)">确 定</el-button>
         </span>
         </template>
       </el-dialog>
@@ -59,14 +59,14 @@
     <!-- 新增窗 -->
     <div>
       <el-dialog title="新增" v-model="addDialogVisible" width="50%" >
-        <el-form ref="form" :model="addTool" label-width="80px">
-          <el-form-item label="文件名">
-            <el-input v-model="addTool.name"></el-input>
+        <el-form ref="addForm" :model="addTool" :rules="rules" label-width="80px">
+          <el-form-item label="文件名" prop="name">
+            <el-input v-model="addTool.name" maxlength="7"></el-input>
           </el-form-item>
-          <el-form-item label="简介">
-            <el-input v-model="addTool.description"></el-input>
+          <el-form-item label="简介" prop="description">
+            <el-input v-model="addTool.description" maxlength="23"></el-input>
           </el-form-item>
-          <el-form-item label="文件" >
+          <el-form-item label="文件">
             <span style="width: 300px;">
               <el-upload class="upload-demo" ref="upload" action="http://localhost:8181/admin/tool/upload" :auto-upload="false" :limit="1" :on-success="handleFilUploadSuccess" >
                 <template #trigger>
@@ -107,7 +107,7 @@
         visible: null,
         upDialogVisible: false,
         addDialogVisible: false,
-        updataTool: {
+        updateTool: {
           name: '',
           description: '',
           path: '',
@@ -116,7 +116,15 @@
           name: '',
           description: '',
           path: '',
-        }
+        },
+        rules: {
+          name: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          description: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+        },
       }
     },
     methods: {
@@ -132,7 +140,7 @@
         const _this = this
 				this.upDialogVisible = true;
         axios.get('http://127.0.0.1:8181/tool/' + id).then(function (resp){
-          _this.updataTool = resp.data
+          _this.updateTool = resp.data
         })
 			},
       handleDelete(id){
@@ -150,33 +158,46 @@
           });          
         });
       },
-			handleUpload (updataTool) {
-        const _this = this
-				this.upDialogVisible = false
-        axios.put('http://127.0.0.1:8181/admin/tool/updateTool', updataTool).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-          }else{
-            alert('修改失败')
+			handleUpload (updateTool) {
+        this.$refs.updateForm.validate((valid) => {
+          if (valid) {
+            const _this = this
+            this.upDialogVisible = false
+            axios.put('http://127.0.0.1:8181/admin/tool/updateTool', updateTool).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('成功');
+              }else{
+                alert('修改失败')
+              }
+            })
+            window.location.reload();  // 刷新窗口
+          } else {
+            console.log("校验失败");
           }
         })
-        window.location.reload();  // 刷新窗口
 			},
 			add() {
         const _this = this
 				this.addDialogVisible = true;
 			},
       handleAdd(addTool){
-        const _this = this
-				this.addDialogVisible = false
-        axios.post('http://127.0.0.1:8181/admin/tool/save', addTool).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-          }else{
-            alert('新增失败')
+        this.$refs.addForm.validate((valid) => {
+          if (valid) {
+            const _this = this
+            this.addDialogVisible = false
+            axios.post('http://127.0.0.1:8181/admin/tool/save', addTool).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('成功');
+              }else{
+                alert('新增失败')
+              }
+            })
+            window.location.reload();  // 刷新窗口
+          } else {
+            console.log("校验失败");
           }
         })
-        window.location.reload();  // 刷新窗口
+
       },
       handleRemove(file,fileList) {
         console.log(file,fileList);

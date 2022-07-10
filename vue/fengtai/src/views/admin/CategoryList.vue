@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- 列表 -->
-    <p>{{}}</p>
     <el-button type="primary" style="margin-left: 20px;" @click="add()">新增</el-button>
     <el-table :data="CategoryData" style="width: 100%">
       <el-table-column label="分类名" width="180">
@@ -36,20 +35,20 @@
     <!-- 编辑窗 -->
     <div>
       <el-dialog title="提示" v-model="upDialogVisible" width="50%" >
-        <el-form ref="form" :model="updataCategory" label-width="80px">
-          <el-form-item label="分类名">
-            <el-input v-model="updataCategory.name"></el-input>
+        <el-form ref="updateForm" :model="updateCategory" :rules="rules" label-width="80px">
+          <el-form-item label="分类名" prop="name">
+            <el-input v-model="updateCategory.name"  maxlength="5"></el-input>
           </el-form-item>
-          <el-form-item label="简介">
-            <el-input v-model="updataCategory.description"></el-input>
+          <el-form-item label="简介" prop="description">
+            <el-input v-model="updateCategory.description"  maxlength="10"></el-input>
           </el-form-item>
-          <el-form-item label="图标">
-            <el-select v-model="updataCategory.icon" class="m-2" placeholder="Select">
+          <el-form-item label="图标" prop="icon">
+            <el-select v-model="updateCategory.icon" class="m-2" placeholder="Select">
               <el-option v-for="item in categoryIconOptions" :key="item.value" :label="item.label" :value="item.value"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="背景">
-            <el-select v-model="updataCategory.background" class="m-2" placeholder="Select">
+          <el-form-item label="背景" prop="background">
+            <el-select v-model="updateCategory.background" class="m-2" placeholder="Select">
               <el-option v-for="item in categoryBgOptions" :key="item.value" :label="item.label" :value="item.value"/>
             </el-select>
           </el-form-item>
@@ -57,7 +56,7 @@
         <template v-slot:footer>
         <span class="dialog-footer">
           <el-button @click="upDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleUpload(updataCategory)">确 定</el-button>
+          <el-button type="primary" @click="handleUpload(updateCategory)">确 定</el-button>
         </span>
         </template>
       </el-dialog>
@@ -65,19 +64,20 @@
     <!-- 新增窗 -->
     <div>
       <el-dialog title="新增" v-model="addDialogVisible" width="50%" >
-        <el-form ref="form" :model="addCategory" label-width="80px">
-          <el-form-item label="分类名">
-            <el-input v-model="addCategory.name"></el-input>
+        <el-form ref="addForm" :model="addCategory" :rules="rules" label-width="80px">
+          <el-form-item label="分类名" prop="name">
+            <el-input v-model="addCategory.name" maxlength="5">
+            </el-input>
           </el-form-item>
-          <el-form-item label="简介">
-            <el-input v-model="addCategory.description"></el-input>
+          <el-form-item label="简介" prop="description">
+            <el-input v-model="addCategory.description" maxlength="10"></el-input>
           </el-form-item>
-          <el-form-item label="图标">
+          <el-form-item label="图标" prop="icon">
             <el-select v-model="addCategory.icon" class="m-2" placeholder="Select">
               <el-option v-for="item in categoryIconOptions" :key="item.value" :label="item.label" :value="item.value"/>
             </el-select>
           </el-form-item>
-          <el-form-item label="背景">
+          <el-form-item label="背景" prop="background">
             <el-select v-model="addCategory.background" class="m-2" placeholder="Select">
               <el-option v-for="item in categoryBgOptions" :key="item.value" :label="item.label" :value="item.value"/>
             </el-select>
@@ -113,7 +113,7 @@
         visible: null,
         upDialogVisible: false,
         addDialogVisible: false,
-        updataCategory: {
+        updateCategory: {
           name: '',
           description: '',
           path: '',
@@ -125,6 +125,20 @@
         },
         categoryIconOptions: this.$config.categoryIconOptions,
         categoryBgOptions: this.$config.categoryBgOptions,
+        rules: {
+          name: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          description: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          icon: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          background: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+        },
       }
     },
     methods: {
@@ -140,7 +154,7 @@
         const _this = this
 				this.upDialogVisible = true;
         axios.get('http://127.0.0.1:8181/category/' + id).then(function (resp){
-          _this.updataCategory = resp.data
+          _this.updateCategory = resp.data
         })
 			},
       handleDelete(id){
@@ -158,33 +172,47 @@
           });          
         });
       },
-			handleUpload (updataCategory) {
-        const _this = this
-				this.upDialogVisible = false
-        axios.put('http://127.0.0.1:8181/admin/category/updateCategory', updataCategory).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-          }else{
-            alert('修改失败')
+			handleUpload (updateCategory) {
+        this.$refs.updateForm.validate((valid) => {
+          if (valid) {
+            const _this = this
+            this.upDialogVisible = false
+            axios.put('http://127.0.0.1:8181/admin/category/updateCategory', updateCategory).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('成功');
+              }else{
+                alert('修改失败')
+              }
+            })
+            window.location.reload();  // 刷新窗口
+          } else {
+            console.log("校验失败");
           }
         })
-        window.location.reload();  // 刷新窗口
 			},
 			add() {
         const _this = this
 				this.addDialogVisible = true;
 			},
       handleAdd(addCategory){
-        const _this = this
-				this.addDialogVisible = false
-        axios.post('http://127.0.0.1:8181/admin/category/save', addCategory).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-          }else{
-            alert('新增失败')
+        this.$refs.addForm.validate((valid) => {
+          if(valid){
+            const _this = this
+            this.addDialogVisible = false
+            axios.post('http://127.0.0.1:8181/admin/category/save', addCategory).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('新增成功');
+              }else{
+                alert('新增失败')
+              }
+            })
+            window.location.reload();  // 刷新窗口
           }
-        })
-        window.location.reload();  // 刷新窗口
+          else{
+            console.log("校验失败");
+          }
+        });
+
       }
     },
   }

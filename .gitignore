@@ -1,3 +1,4 @@
 # .gitignore
 java/log
-java/fengtai/src/main/resources
+java/fengtai/src/main/resources/static
+java/fengtai/src/main/resources/application.yml
