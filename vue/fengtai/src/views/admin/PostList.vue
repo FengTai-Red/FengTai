@@ -10,7 +10,7 @@
       </el-table-column>
       <el-table-column label="是否发布" width="100">
         <template #default="scope">
-          <span style="margin-left: 10px">{{ scope.row.published }}</span>
+          <span style="margin-left: 10px">{{ scope.row.published == true ? '是':'否' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="创建时间" width="300">
@@ -75,7 +75,7 @@
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
       handleEdit(id){

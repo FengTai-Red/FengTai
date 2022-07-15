@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -36,6 +38,7 @@ public class ToolServiceImpl implements ToolService{
     private ToolRepository toolRepository;
     @Value("${gorit.file.root.path}")  // 将 yml 中的自定义配置注入到这里
     private String filePath;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Transactional
     @Override
@@ -70,20 +73,27 @@ public class ToolServiceImpl implements ToolService{
 
     @Override
     public void deleteToolById(Long id) {
-        toolRepository.deleteById(id);
+        Tool tool = findOneToolById(id);
+        String fileName = tool.getPath();  // 文件名
+        if (fileName != null) {
+            File file = new File(filePath + fileName);
+            file.delete();
+            toolRepository.deleteById(id);
+        } else {
+            logger.info("文件不存在");
+        }
     }
 
     @Override
     public String downloadFile(HttpServletResponse response, Long id) {
         Tool tool = toolRepository.findById(id).get();
-        String fileName = tool.getName();  // 文件名
-        String filePatn = tool.getPath();  // 文件路径
+        String fileName = tool.getPath();  // 文件名
         if (fileName != null) {
             //设置文件路径
-            File file = new File("src/main/resources/static/data/" + filePatn);
+            File file = new File(filePath + fileName);
             if (file.exists()) {
                 response.setContentType("application/force-download");// 设置强制下载不打开
-                response.addHeader("Content-Disposition", "attachment;fileName=" + filePatn);// 设置文件名
+                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
                 byte[] buffer = new byte[1024];
                 FileInputStream fis = null;
                 BufferedInputStream bis = null;

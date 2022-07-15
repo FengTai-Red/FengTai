@@ -27,6 +27,7 @@
     </el-table>
     <!-- 翻页 -->
     <el-pagination background layout="prev, pager, next" :page-count="Math.floor(totalElements/10)+1" @current-change="page"/>
+    <el-button size="small" @click="test()">编辑</el-button>
     <!-- 编辑窗 -->
     <div>
       <el-dialog title="编辑" v-model="upDialogVisible" width="50%" >
@@ -36,16 +37,6 @@
           </el-form-item>
           <el-form-item label="简介" prop="description">
             <el-input v-model="updateTool.description"  maxlength="23"></el-input>
-          </el-form-item>
-          <el-form-item label="文件">
-            <span style="width: 300px;">
-              <el-upload class="upload-demo" ref="upload" action="http://localhost:8181/admin/tool/upload" :auto-upload="false" :limit="1" :on-success="handleFilUploadSuccess" >
-                <template #trigger>
-                  <el-button type="primary">选择文件</el-button>
-                </template>
-              </el-upload>
-              <el-button type="primary" @click=" handleUploadFile()">上 传</el-button>
-            </span>
           </el-form-item>
         </el-form>
         <template v-slot:footer>
@@ -68,12 +59,20 @@
           </el-form-item>
           <el-form-item label="文件">
             <span style="width: 300px;">
-              <el-upload class="upload-demo" ref="upload" action="http://localhost:8181/admin/tool/upload" :auto-upload="false" :limit="1" :on-success="handleFilUploadSuccess" >
+              <el-upload class="upload-demo" 
+                ref="upload" 
+                action="http://localhost:8181/admin/tool/upload" 
+                name="file"
+                :auto-upload="false" 
+                :limit="1" 
+                :on-success="handleFileUploadSuccess"
+                :on-remove="handleRemove" 
+                :on-change="handleChange"
+                >
                 <template #trigger>
                   <el-button type="primary">选择文件</el-button>
                 </template>
               </el-upload>
-              <el-button type="primary" @click=" handleUploadFile()">上 传</el-button>
             </span>
           </el-form-item>
         </el-form>
@@ -105,8 +104,9 @@
         size: null,
         toolData: null,
         visible: null,
-        upDialogVisible: false,
-        addDialogVisible: false,
+        upDialogVisible: false,  // 修改窗
+        addDialogVisible: false,  // 新增窗
+        isFileEmpty: true,  // 文件是否上传
         updateTool: {
           name: '',
           description: '',
@@ -136,6 +136,9 @@
           _this.size = resp.data.size
         })
       },
+      /**
+       * 编辑
+       */
 			handEdit(id) {
         const _this = this
 				this.upDialogVisible = true;
@@ -143,6 +146,9 @@
           _this.updateTool = resp.data
         })
 			},
+      /**
+       * 删除
+       */
       handleDelete(id){
         this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -158,6 +164,9 @@
           });          
         });
       },
+      /**
+       * 编辑框-确定
+       */
 			handleUpload (updateTool) {
         this.$refs.updateForm.validate((valid) => {
           if (valid) {
@@ -176,50 +185,72 @@
           }
         })
 			},
+      /**
+       * 新增
+       */
 			add() {
         const _this = this
 				this.addDialogVisible = true;
 			},
+      /**
+       * 上传框-确定
+       * https://blog.51cto.com/codinggorit/3753580
+       */
       handleAdd(addTool){
+        console.log("=======确定 handleAdd=======")
         this.$refs.addForm.validate((valid) => {
           if (valid) {
-            const _this = this
-            this.addDialogVisible = false
-            axios.post('http://127.0.0.1:8181/admin/tool/save', addTool).then(function(resp) {
-              if (resp.data == 'success'){
-                console.log('成功');
-              }else{
-                alert('新增失败')
-              }
-            })
-            window.location.reload();  // 刷新窗口
+            if (!this.isFileEmpty) {
+              this.submitUpload()
+              const _this = this
+              this.addDialogVisible = false
+              axios.post('http://127.0.0.1:8181/admin/tool/save', addTool).then(function(resp) {
+                if (resp.data == 'success'){
+                  console.log('成功');
+                }else{
+                  alert('新增失败')
+                }
+              })
+              window.location.reload();  // 刷新窗口
+            } else {
+              console.log("未选择文件");
+              this.$message({
+                type: 'warning',
+                message: '请选择文件'
+              });
+            }
           } else {
             console.log("校验失败");
           }
         })
-
       },
-      handleRemove(file,fileList) {
-        console.log(file,fileList);
+      // 值改变 判读是否有值
+      handleChange(file) {
+        console.log("=======文件状态改变 handleChange=======");
+        console.log(file);
+        if (file != "undefined") {
+          this.isFileEmpty = false;
+        } else {
+          this.isFileEmpty = true;
+          console.log("文件有误");
+        }
       },
+      // 删除文件
+      handleRemove(file) {
+        console.log("=======删除文件 handleRemove=======")
+        this.isFileEmpty = true;
+        console.log(file);
+      },
+      // 上传文件到服务器
       submitUpload() {
+        console.log("=======上传文件到服务器 submitUpload=======")
         this.$refs.upload.submit();
       },
       // 文件上传成功时的函数
-      handleFilUploadSuccess (res,file,fileList) {
-        console.log(res,file,fileList)
+      handleFileUploadSuccess (file) {
+        console.log("=======文件上传成功时的函数 handleFileUploadSuccess=======")
         this.$message.success("上传成功")
       },
-      handleUpdate () {
-        this.dialogVisible = true;
-      },
-      // 处理文件上传的函数
-      handleUploadFile () {
-        // console.log(res,file)
-        this.submitUpload()
-        this.dialogVisible = false
-      },
     },
-
   }
 </script>
