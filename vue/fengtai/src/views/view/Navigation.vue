@@ -48,10 +48,12 @@
   import { shuffle } from '@/utils';
   import axios from "axios";
   var pageNum = 1;
+  var controllerPath = '';
   export default {
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this;
-      axios.get('http://127.0.0.1:8181/navigation/page/1/6').then(function (resp){
+      axios.get(controllerPath + '/navigation/page/1/6').then(function (resp){
         _this.navigatData = resp.data.content;
         _this.pageFirst = resp.data.first;
         _this.pageLast = resp.data.last;
@@ -73,7 +75,7 @@
       pageNext(){
         pageNum += 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/navigation/page/'+ pageNum + '/6').then(function (resp){
+        axios.get(controllerPath + '/navigation/page/'+ pageNum + '/6').then(function (resp){
           _this.navigatData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;
@@ -82,7 +84,7 @@
       pagePrev(){
         pageNum -= 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/navigation/page/'+ pageNum+ '/6').then(function (resp){
+        axios.get(controllerPath + '/navigation/page/'+ pageNum+ '/6').then(function (resp){
           _this.navigatData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;

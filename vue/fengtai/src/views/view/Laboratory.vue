@@ -13,10 +13,10 @@
           <ul class="content">
             <li class="cursor" v-for="(laboratory, index) in laboratorylist" :key="laboratory" :index="index+''">
               <a @click="postlaboratory(laboratory.path)">
-              <img :src="require('@/assets/image/A_KianaKaslana.jpg')" alt="" class="bg">
+              <img :src="require('@/assets/image/' + categoryBgOptions[index].value)" alt="" class="bg">
               <div class="meta">
                 <div>
-                  <img :src="require('@/assets/image/icon/clannad1.jpg')" alt="" class="avatar">
+                  <img :src="require('@/assets/image/icon/' + categoryIconOptions[index].value)" alt="" class="avatar">
                   <span>{{laboratory.name}}</span>
                 </div>
                   <p>{{laboratory.description}}</p>
@@ -40,8 +40,14 @@
       var routes = router.options.routes
       var laboratorylist = routes[1].children;
       return {
-        laboratorylist,
+        laboratorylist, 
       };
+    },
+    data(){
+      return {
+        categoryIconOptions: this.$config.categoryIconOptions,
+        categoryBgOptions: this.$config.categoryBgOptions,
+      }
     },
     methods: {
       postlaboratory(path){

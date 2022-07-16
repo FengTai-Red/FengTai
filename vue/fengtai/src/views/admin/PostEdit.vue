@@ -54,12 +54,20 @@
   import '@wangeditor/editor/dist/css/style.css' // 引入 css
   import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
   import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-
+  var controllerPath = ''
+  
   export default {
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/post/' + this.$route.query.id).then(function(resp){
+      axios.get(controllerPath + '/post/' + this.$route.query.id).then(function(resp){
         _this.updatePost = resp.data;
+      })
+      axios.get(controllerPath + '/category/findAll').then(function (resp){
+         _this.postCategoryOptions = Array.from({ length: resp.data.length }).map((_, idx) => ({
+          value: `${resp.data[idx].name}`,
+          label: `${resp.data[idx].name}`,
+        }))
       })
     },
     components: { Editor, Toolbar },
@@ -90,11 +98,7 @@
     },
     data () {
       return {
-        postCategoryOptions: [
-          {value: '测试', label: '测试'},
-          {value: 'ACG', label: 'ACG'},
-          {value: 'Code', label: 'Code'},
-        ],
+        postCategoryOptions: '',
         postFirstPictureOptions,
         updatePost:{
           title: '',
@@ -126,7 +130,7 @@
         this.$refs.updateForm.validate((valid) => {
           if (valid) {
             const _this = this
-            axios.post('http://127.0.0.1:8181/admin/post/save', updatePost).then(function(resp) {
+            axios.post(controllerPath + '/admin/post/save', updatePost).then(function(resp) {
               if (resp.data == 'success'){
                 console.log('成功');
                 that.$router.push({

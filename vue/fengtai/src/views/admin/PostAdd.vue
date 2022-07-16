@@ -41,6 +41,7 @@
       <el-button type="primary" @click="submitForm(addPost)">创建</el-button>
     </el-form-item>
   </el-form>
+  
 </template>
 
 <script>
@@ -53,9 +54,10 @@
   import '@wangeditor/editor/dist/css/style.css' // 引入 css
   import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
   import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-
+  var controllerPath = ''
   export default {
     components: { Editor, Toolbar },
+    
     setup() {
       // 编辑器实例，必须用 shallowRef
       const editorRef = shallowRef()
@@ -81,13 +83,19 @@
         handleCreated,
       };
     },
+    created(){
+      controllerPath = this.$config.controllerPath
+      const _this = this
+      axios.get(controllerPath + '/category/findAll').then(function (resp){
+        _this.postCategoryOptions = Array.from({ length: resp.data.length }).map((_, idx) => ({
+            value: `${resp.data[idx].name}`,
+            label: `${resp.data[idx].name}`,
+          }))
+      })
+    },
     data () {
       return {
-        postCategoryOptions: [
-          {value: '测试', label: '测试'},
-          {value: 'ACG', label: 'ACG'},
-          {value: 'Code', label: 'Code'},
-        ],
+        postCategoryOptions: '',
         postFirstPictureOptions,
         addPost:{
           title: '',
@@ -102,7 +110,7 @@
           ],
           description: [
             { required: true, message: '不能为空', trigger: 'blur'},
-          ],
+          ], 
           firstPicture: [
             { required: true, message: '不能为空', trigger: 'blur'},
           ],
@@ -118,7 +126,7 @@
         this.$refs.updateForm.validate((valid) => {
           if (valid) {
             const _this = this
-            axios.post('http://127.0.0.1:8181/admin/post/save', addPost).then(function(resp) {
+            axios.post(controllerPath + '/admin/post/save', addPost).then(function(resp) {
               if (resp.data == 'success'){
                 console.log('成功');
                 that.$router.push({

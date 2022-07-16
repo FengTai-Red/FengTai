@@ -95,6 +95,12 @@ const routes = [
         description: '测试用',
         component: () => import("../views/view/laboratory/Test.vue")
       },
+      {
+        path: '/Laboratory/Test2',
+        name: '测试2',
+        description: '测试用2',
+        component: () => import("../views/view/laboratory/Test2.vue")
+      },
     ]
   },
   {

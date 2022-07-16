@@ -36,9 +36,13 @@
 
 
 <script>
-  import axios from "axios"
+  import axios from "axios";
+  var controllerPath = '';
   export default {
     name: "Login",
+    created(){
+      controllerPath = this.$config.controllerPath
+    },
     data() {
       return {
         loginForm: {
@@ -61,7 +65,7 @@
           if(valid){
             console.log(loginForm);
             const that = this
-            axios.post('http://127.0.0.1:8181/login', loginForm).then(function(resp) {
+            axios.post(controllerPath + '/login', loginForm).then(function(resp) {
               if (resp.data == 'success'){
                 console.log('验证通过');
                 sessionStorage.setItem('isLogin',1);
@@ -79,6 +83,12 @@
           }else{
             console.log("校验失败");
           }
+        })
+      },
+      postview(){
+        console.log("aaaaaaaa");
+        this.$router.push({
+          path: "/",
         })
       },
     },

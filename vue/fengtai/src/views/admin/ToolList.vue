@@ -27,7 +27,6 @@
     </el-table>
     <!-- 翻页 -->
     <el-pagination background layout="prev, pager, next" :page-count="Math.floor(totalElements/10)+1" @current-change="page"/>
-    <el-button size="small" @click="test()">编辑</el-button>
     <!-- 编辑窗 -->
     <div>
       <el-dialog title="编辑" v-model="upDialogVisible" width="50%" >
@@ -89,11 +88,13 @@
 
 <script>
   import axios from "axios"
+  var controllerPath = ''
   export default {
     name: "Upload",
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/tool/page/1/10').then(function (resp){
+      axios.get(controllerPath + '/tool/page/1/10').then(function (resp){
         _this.toolData = resp.data.content
         _this.totalElements = resp.data.totalElements
       })
@@ -130,7 +131,7 @@
     methods: {
       page(currentPage){
         const _this = this
-        axios.get('http://127.0.0.1:8181/tool/page/'+ currentPage+ '/10').then(function (resp){
+        axios.get(controllerPath + '/tool/page/'+ currentPage+ '/10').then(function (resp){
           _this.toolData = resp.data.content
           _this.totalElements = resp.data.totalElements
           _this.size = resp.data.size
@@ -142,7 +143,7 @@
 			handEdit(id) {
         const _this = this
 				this.upDialogVisible = true;
-        axios.get('http://127.0.0.1:8181/tool/' + id).then(function (resp){
+        axios.get(controllerPath + '/tool/' + id).then(function (resp){
           _this.updateTool = resp.data
         })
 			},
@@ -155,7 +156,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.delete('http://127.0.0.1:8181/admin/tool/deleteTool/' + id)
+          axios.delete(controllerPath + '/admin/tool/deleteTool/' + id)
           window.location.reload();  // 刷新窗口
         }).catch(() => {
           this.$message({
@@ -172,7 +173,7 @@
           if (valid) {
             const _this = this
             this.upDialogVisible = false
-            axios.put('http://127.0.0.1:8181/admin/tool/updateTool', updateTool).then(function(resp) {
+            axios.put(controllerPath + '/admin/tool/updateTool', updateTool).then(function(resp) {
               if (resp.data == 'success'){
                 console.log('成功');
               }else{
@@ -204,7 +205,7 @@
               this.submitUpload()
               const _this = this
               this.addDialogVisible = false
-              axios.post('http://127.0.0.1:8181/admin/tool/save', addTool).then(function(resp) {
+              axios.post(controllerPath + '/admin/tool/save', addTool).then(function(resp) {
                 if (resp.data == 'success'){
                   console.log('成功');
                 }else{

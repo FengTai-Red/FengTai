@@ -47,10 +47,12 @@
   import { shuffle } from '@/utils'
   import axios from "axios";
   var pageNum = 1;
+  var controllerPath = '';
   export default {
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/tool/page/1/6').then(function (resp){
+      axios.get(controllerPath + '/tool/page/1/6').then(function (resp){
         _this.toolData = resp.data.content;
         _this.pageFirst = resp.data.first;
         _this.pageLast = resp.data.last;
@@ -70,12 +72,12 @@
         window.open(path);
       },
       downloadTool(toolId) {
-        window.open('http://127.0.0.1:8181/tool/download/' + toolId);
+        window.open(controllerPath + '/tool/download/' + toolId);
       },
       pageNext(){
         pageNum += 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/tool/page/'+ pageNum + '/6').then(function (resp){
+        axios.get(controllerPath + '/tool/page/'+ pageNum + '/6').then(function (resp){
           _this.toolData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;
@@ -84,7 +86,7 @@
       pagePrev(){
         pageNum -= 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/tool/page/'+ pageNum+ '/6').then(function (resp){
+        axios.get(controllerPath + '/tool/page/'+ pageNum+ '/6').then(function (resp){
           _this.toolData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;

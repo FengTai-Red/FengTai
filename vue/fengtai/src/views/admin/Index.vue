@@ -20,10 +20,14 @@
 </template>
 
 <script>
-  import axios from "axios"
+  import axios from "axios";
   import { defineComponent, ref } from 'vue';
   import { useRouter } from 'vue-router';
+  var controllerPath = '';
   export default defineComponent({
+    created(){
+      controllerPath = this.$config.controllerPath
+    },
     setup() {
       const router = useRouter();
       var str = JSON.stringify(router); // 将对象转成字符串
@@ -37,7 +41,7 @@
     methods: {
       logout(){
         const that = this
-        axios.get('http://127.0.0.1:8181/logout').then(function (resp){
+        axios.get(controllerPath + '/logout').then(function (resp){
           if (resp.data == 'success'){
             console.log('成功');
             sessionStorage.setItem('isLogin',0);

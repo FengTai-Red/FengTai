@@ -75,12 +75,14 @@
 </template>
 
 <script>
-  import axios from "axios"
+  import axios from "axios";
+  var controllerPath = '';
   export default {
     name: "Upload",
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/navigation/page/1/10').then(function (resp){
+      axios.get(controllerPath + '/navigation/page/1/10').then(function (resp){
         _this.navigationData = resp.data.content
         _this.totalElements = resp.data.totalElements
       })
@@ -119,7 +121,7 @@
     methods: {
       page(currentPage){
         const _this = this
-        axios.get('http://127.0.0.1:8181/navigation/page/'+ currentPage+ '/10').then(function (resp){
+        axios.get(controllerPath + '/navigation/page/'+ currentPage+ '/10').then(function (resp){
           _this.navigationData = resp.data.content
           _this.totalElements = resp.data.totalElements
           _this.size = resp.data.size
@@ -128,7 +130,7 @@
 			handEdit(id) {
         const _this = this
 				this.upDialogVisible = true;
-        axios.get('http://127.0.0.1:8181/navigation/' + id).then(function (resp){
+        axios.get(controllerPath + '/navigation/' + id).then(function (resp){
           _this.updateNavigation = resp.data
         })
 			},
@@ -138,7 +140,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.delete('http://127.0.0.1:8181/admin/navigation/deleteNavigation/' + id)
+          axios.delete(controllerPath + '/admin/navigation/deleteNavigation/' + id)
           window.location.reload();  // 刷新窗口
         }).catch(() => {
           this.$message({
@@ -152,7 +154,7 @@
           if (valid) {
             const _this = this
             this.upDialogVisible = false
-            axios.put('http://127.0.0.1:8181/admin/navigation/updateNavigation', updateNavigation).then(function(resp) {
+            axios.put(controllerPath + '/admin/navigation/updateNavigation', updateNavigation).then(function(resp) {
               if (resp.data == 'success'){
                 console.log('成功');
               }else{
@@ -174,7 +176,7 @@
           if (valid) {
             const _this = this
             this.addDialogVisible = false
-            axios.post('http://127.0.0.1:8181/admin/navigation/save', addNavigation).then(function(resp) {
+            axios.post(controllerPath + '/admin/navigation/save', addNavigation).then(function(resp) {
               if (resp.data == 'success'){
                 console.log('成功');
               }else{

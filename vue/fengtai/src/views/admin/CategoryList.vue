@@ -95,12 +95,14 @@
 </template>
 
 <script>
-  import axios from "axios"
+  import axios from "axios";
+  var controllerPath = '';
   export default {
     name: "Upload",
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/category/page/1/10').then(function (resp){
+      axios.get(controllerPath + '/category/page/1/10').then(function (resp){
         _this.CategoryData = resp.data.content
         _this.totalElements = resp.data.totalElements
       })
@@ -144,7 +146,7 @@
     methods: {
       page(currentPage){
         const _this = this
-        axios.get('http://127.0.0.1:8181/category/page/'+ currentPage+ '/10').then(function (resp){
+        axios.get(controllerPath + '/category/page/'+ currentPage+ '/10').then(function (resp){
           _this.CategoryData = resp.data.content
           _this.totalElements = resp.data.totalElements
           _this.size = resp.data.size
@@ -153,7 +155,7 @@
 			handEdit(id) {
         const _this = this
 				this.upDialogVisible = true;
-        axios.get('http://127.0.0.1:8181/category/' + id).then(function (resp){
+        axios.get(controllerPath + '/category/' + id).then(function (resp){
           _this.updateCategory = resp.data
         })
 			},
@@ -163,7 +165,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.delete('http://127.0.0.1:8181/admin/category/deleteCategory/' + id)
+          axios.delete(controllerPath + '/admin/category/deleteCategory/' + id)
           window.location.reload();  // 刷新窗口
         }).catch(() => {
           this.$message({
@@ -177,7 +179,7 @@
           if (valid) {
             const _this = this
             this.upDialogVisible = false
-            axios.put('http://127.0.0.1:8181/admin/category/updateCategory', updateCategory).then(function(resp) {
+            axios.put(controllerPath + '/admin/category/updateCategory', updateCategory).then(function(resp) {
               if (resp.data == 'success'){
                 console.log('成功');
               }else{
@@ -199,7 +201,7 @@
           if(valid){
             const _this = this
             this.addDialogVisible = false
-            axios.post('http://127.0.0.1:8181/admin/category/save', addCategory).then(function(resp) {
+            axios.post(controllerPath + '/admin/category/save', addCategory).then(function(resp) {
               if (resp.data == 'success'){
                 console.log('新增成功');
               }else{

@@ -80,7 +80,7 @@ export default {
   /**
    * 分类的背景图
    */
-   categoryBgOptions: [
+  categoryBgOptions: [
     {value: 'A_KianaKaslana.jpg', label: 'A_KianaKaslana.jpg'},
     {value: 'B_RaidenMei.jpg', label: 'B_RaidenMei.jpg'},
     {value: 'C_BronyaZaychik.jpg', label: 'C_BronyaZaychik.jpg'},
@@ -91,4 +91,8 @@ export default {
     {value: 'H_HouraijiKyuusyou.jpg', label: 'H_HouraijiKyuusyou.jpg'},
     {value: 'I_YssringLeavtruth.jpg', label: 'I_YssringLeavtruth.jpg'},
   ],
+  /**
+   * 后端接口路径
+   */
+   controllerPath: 'http://127.0.0.1:8181',
 }

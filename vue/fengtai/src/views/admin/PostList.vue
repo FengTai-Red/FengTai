@@ -37,11 +37,13 @@
 
 <script>
   import axios from "axios"
+  var controllerPath = ''
   export default {
     name: "Upload",
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/post/page/1/10').then(function (resp){
+      axios.get(controllerPath + '/post/page/1/10').then(function (resp){
         _this.postData = resp.data.content
         _this.totalElements = resp.data.totalElements
       })
@@ -57,7 +59,7 @@
     methods: {
       page(currentPage){
         const _this = this
-        axios.get('http://127.0.0.1:8181/post/page/'+ currentPage+ '/10').then(function (resp){
+        axios.get(controllerPath + '/post/page/'+ currentPage+ '/10').then(function (resp){
           _this.postData = resp.data.content
           _this.totalElements = resp.data.totalElements
           _this.size = resp.data.size
@@ -69,7 +71,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.delete('http://127.0.0.1:8181/admin/post/deletePost/' + id)
+          axios.delete(controllerPath + '/admin/post/deletePost/' + id)
           window.location.reload();  // 刷新窗口
         }).catch(() => {
           this.$message({
