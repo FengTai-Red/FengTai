@@ -1,6 +1,9 @@
 package red.fengtai.controller;
 
 import java.util.List;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import red.fengtai.entity.ImgResult;
 import red.fengtai.entity.Post;
 import red.fengtai.service.PostService;
 /**
@@ -24,6 +30,7 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
 
     /**
      * 全部
@@ -94,7 +101,7 @@ public class PostController {
      * @return
      */
     @PostMapping("/admin/post/save")
-    public String savaUser(@RequestBody Post post){
+    public String savePost(@RequestBody Post post){
         if (post != null){
             postService.savePost(post);
             return "success";
@@ -103,5 +110,25 @@ public class PostController {
         }
     }
 
+    /**
+     * 文章图片上传
+     * @param request
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/admin/post/img/upload")
+    public ImgResult savePostImg(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IOException {
+        return postService.postImgUploads(request, file);
+    }
+
+    /**
+     * 显示图片
+     * @return
+     */
+    @GetMapping("/post/showimg/{name}")
+    public String showPhotos(@PathVariable("name") String name){
+        return postService.showPostImg(name);
+    }
 
 }

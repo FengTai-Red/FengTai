@@ -1,10 +1,17 @@
 package red.fengtai.service;
 
+import java.io.IOException;
+
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import red.fengtai.entity.ImgResult;
 import red.fengtai.entity.Post;
+import red.fengtai.entity.ToolResult;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文章
@@ -58,6 +65,22 @@ public interface PostService {
      * @param post
      */
     void savePost(Post post);
+
+    /**
+     * 文章图片上传
+     * @param request
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    ImgResult postImgUploads(HttpServletRequest request, MultipartFile file) throws IOException;
+
+    /**
+     * 显示文章图片
+     * @param fileName
+     * @return
+     */
+    String showPostImg(String fileName);
 
     /**
      * 根据ID查询Post

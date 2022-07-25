@@ -96,10 +96,10 @@ const routes = [
         component: () => import("../views/view/laboratory/Test.vue")
       },
       {
-        path: '/Laboratory/Test2',
-        name: '测试2',
-        description: '测试用2',
-        component: () => import("../views/view/laboratory/Test2.vue")
+        path: '/Laboratory/BV2AV',
+        name: 'BV号转AV号',
+        description: '将BV号转为AV号',
+        component: () => import("../views/view/laboratory/BV2AV.vue")
       },
     ]
   },

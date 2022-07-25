@@ -75,7 +75,7 @@
       // 编辑器实例，必须用 shallowRef
       const editorRef = shallowRef()
       const toolbarConfig = {}
-      const editorConfig = { placeholder: '请输入内容...' }
+      const editorConfig = { placeholder: '请输入内容...', MENU_CONF: {}}
 
       // 组件销毁时，也及时销毁编辑器
       onBeforeUnmount(() => {
@@ -83,6 +83,13 @@
           if (editor == null) return
           editor.destroy()
       })
+
+      editorConfig.MENU_CONF['uploadImage'] = {
+          // 上传图片的配置
+          server: 'http://127.0.0.1:8181/admin/post/img/upload',
+          fieldName: 'file',
+          maxFileSize: 10 * 1024 * 1024, // 1M
+      }
 
       const handleCreated = (editor) => {
         editorRef.value = editor // 记录 editor 实例，重要！

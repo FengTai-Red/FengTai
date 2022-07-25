@@ -3,7 +3,9 @@
   <div class="common-layout">
     <el-container>
       <el-header>Header</el-header>
-      <el-main>Main</el-main>
+      <el-main>
+        <el-input v-model="input" placeholder="Please input" @input="change($event)"/>
+      </el-main>
       <el-footer>Footer</el-footer>
     </el-container>
   </div>
@@ -11,6 +13,9 @@
 
 <script>
   export default {
+    change(e){
+      this.$$forceUpdate()
+    },
     data () {
       return {
       }
