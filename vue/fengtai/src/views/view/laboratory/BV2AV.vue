@@ -9,7 +9,7 @@
           <el-button type="primary" @click="exchange()">确 定</el-button>
         </div>
       </el-main>
-      <el-footer>Footer2</el-footer>
+      <el-footer style="text-align: -webkit-center;"></el-footer>
     </el-container>
   </div>
 </template>

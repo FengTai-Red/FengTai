@@ -2,8 +2,8 @@
   <div>
     <!-- 列表 -->
     <el-button type="primary" style="margin-left: 20px;" @click="addPost()">新增</el-button>
-    <el-table :data="postData" style="width: 100%" v-if="postData">
-      <el-table-column label="标题" width="450">
+    <el-table :data="postData" style="width: 90%" v-if="postData">
+      <el-table-column label="标题">
         <template #default="scope">
           <span style="margin-left: 10px">{{ scope.row.title }}</span>
         </template>
@@ -23,7 +23,7 @@
           <span style="margin-left: 10px">{{ scope.row.category }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="200">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.row.id)">编辑</el-button>
           <el-button size="small" type="danger" @click="handleDelete(scope.row.id)" >删除</el-button>

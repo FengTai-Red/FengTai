@@ -7,7 +7,7 @@
     <el-form-item label="描述" prop="description">
       <el-input v-model="addPost.description" maxlength="113"></el-input>
     </el-form-item>
-    <el-form-item label="内容" maxlength="10240">
+    <el-form-item label="内容">
       <div style="border: 1px solid #ccc">
         <Toolbar
           style="border-bottom: 1px solid #ccc"
@@ -52,7 +52,7 @@
 
   import axios from "axios"
   import '@wangeditor/editor/dist/css/style.css' // 引入 css
-  import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
+  import { onBeforeUnmount, shallowRef} from 'vue'
   import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
   var controllerPath = ''
   export default {

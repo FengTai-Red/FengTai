@@ -39,6 +39,7 @@ public class PostServiceImpl implements PostService{
     @Value("${img.file.root.path}")  // 将 yml 中的自定义配置注入到这里
     private String filePath;
     private String newFileName;
+    private String imgPath = "http://127.0.0.1:8181/img/";
 
     @Transactional
     @Override
@@ -95,7 +96,8 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public String showPostImg(String fileName){
-        String url = "http://127.0.0.1:8181/img/" + fileName;
+        System.out.println(imgPath);
+        String url = imgPath + fileName;
         return url;
     }
 

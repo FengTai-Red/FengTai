@@ -1,6 +1,7 @@
 package red.fengtai.service;
 
 import java.util.List;
+import java.lang.Thread;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,7 +59,17 @@ public class ToolServiceImpl implements ToolService{
     }
 
     @Override
-    public void saveTool(Tool tool) { 
+    public void saveTool(Tool tool) {
+        for (int i = 0; i < 10; i++) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+            }
+            i = i + 1;
+            if (newFileName != null) {
+                break;
+            }
+        }
         tool.setPath(newFileName);
         toolRepository.save(tool);
     }
@@ -150,6 +161,7 @@ public class ToolServiceImpl implements ToolService{
             System.err.println("上传失败：" + e.toString());
         }
         // 待完成 —— 文件类型校验工作
+
         return ToolResult.fail("上传错误");
     }
 }

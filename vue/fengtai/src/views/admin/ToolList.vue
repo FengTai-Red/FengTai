@@ -74,6 +74,9 @@
               </el-upload>
             </span>
           </el-form-item>
+          <el-form-item label="文件路径" v-show="false">
+            <el-input v-model="addTool.path" maxlength="7"></el-input>
+          </el-form-item>
         </el-form>
         <template v-slot:footer>
         <span class="dialog-footer">
@@ -101,6 +104,7 @@
     },
     data() {
       return {
+        time: null,
         totalElements: null,
         size: null,
         toolData: null,
@@ -198,6 +202,7 @@
        * https://blog.51cto.com/codinggorit/3753580
        */
       handleAdd(addTool){
+        // addTool.path = this.getTime()
         console.log("=======确定 handleAdd=======")
         this.$refs.addForm.validate((valid) => {
           if (valid) {
@@ -251,6 +256,19 @@
       handleFileUploadSuccess (file) {
         console.log("=======文件上传成功时的函数 handleFileUploadSuccess=======")
         this.$message.success("上传成功")
+      },
+      getTime(){
+        var that = this;
+        let yy = new Date().getFullYear();
+        let mm = (new Date().getMonth()+ 1 + '').padStart(2, '0');
+        let dd = (new Date().getDate() + '').padStart(2, '0');
+        let hh = new Date().getHours();
+        let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+        let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+        that.gettime = yy+mm+dd+hh+mf+ss;
+        // console.log(that.gettime)  
+        //赋值你的变量
+        return that.gettime
       },
     },
   }

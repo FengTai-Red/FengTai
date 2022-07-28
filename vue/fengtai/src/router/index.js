@@ -101,6 +101,12 @@ const routes = [
         description: '将BV号转为AV号',
         component: () => import("../views/view/laboratory/BV2AV.vue")
       },
+      {
+        path: '/Laboratory/GenshinInfo',
+        name: '原神信息',
+        description: '统计原神账号信息',
+        component: () => import("../views/view/laboratory/GenshinInfo.vue")
+      },
     ]
   },
   {
