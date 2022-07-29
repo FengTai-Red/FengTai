@@ -90,8 +90,9 @@ public class ToolServiceImpl implements ToolService{
             File file = new File(filePath + fileName);
             file.delete();
             toolRepository.deleteById(id);
+            logger.info("删除文件：" + filePath + fileName);
         } else {
-            logger.info("文件不存在");
+            logger.info("删除的文件文件不存在");
         }
     }
 
@@ -155,6 +156,7 @@ public class ToolServiceImpl implements ToolService{
             // 上传的文件被保存了
             file.transferTo(dest);
             // 打印日志
+            logger.info("上传文件：" + filePath + newFileName);
             // 自定义返回的统一的 JSON 格式的数据，可以直接返回这个字符串也是可以的。
             return ToolResult.succ("上传成功");
         } catch (IOException e) {

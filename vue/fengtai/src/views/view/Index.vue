@@ -47,6 +47,7 @@
     },
     methods: {
       postadmin(){
+        // console.log(window.location.href);
         this.$router.push({
           path: "/Login",
         })

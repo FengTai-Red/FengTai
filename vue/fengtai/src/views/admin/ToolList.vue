@@ -67,6 +67,7 @@
                 :on-success="handleFileUploadSuccess"
                 :on-remove="handleRemove" 
                 :on-change="handleChange"
+                :before-upload="handleBeforeUpload"
                 >
                 <template #trigger>
                   <el-button type="primary">选择文件</el-button>
@@ -104,7 +105,7 @@
     },
     data() {
       return {
-        time: null,
+        fileSizeMax: false,
         totalElements: null,
         size: null,
         toolData: null,
@@ -174,7 +175,7 @@
        */
 			handleUpload (updateTool) {
         this.$refs.updateForm.validate((valid) => {
-          if (valid) {
+          if (valid && fileSize) {
             const _this = this
             this.upDialogVisible = false
             axios.put(controllerPath + '/admin/tool/updateTool', updateTool).then(function(resp) {
@@ -202,22 +203,25 @@
        * https://blog.51cto.com/codinggorit/3753580
        */
       handleAdd(addTool){
-        // addTool.path = this.getTime()
         console.log("=======确定 handleAdd=======")
         this.$refs.addForm.validate((valid) => {
           if (valid) {
             if (!this.isFileEmpty) {
               this.submitUpload()
-              const _this = this
-              this.addDialogVisible = false
-              axios.post(controllerPath + '/admin/tool/save', addTool).then(function(resp) {
-                if (resp.data == 'success'){
-                  console.log('成功');
-                }else{
-                  alert('新增失败')
+                if (this.fileSizeMax) {
+                  const _this = this
+                  this.addDialogVisible = false
+                  axios.post(controllerPath + '/admin/tool/save', addTool).then(function(resp) {
+                    if (resp.data == 'success'){
+                      console.log('成功');
+                      // window.location.reload();  // 刷新窗口
+                    }else{
+                      alert('新增失败')
+                    }
+                  })
+                } else {
+                  alert('上传文件大小不能超过 99MB')
                 }
-              })
-              window.location.reload();  // 刷新窗口
             } else {
               console.log("未选择文件");
               this.$message({
@@ -247,6 +251,18 @@
         this.isFileEmpty = true;
         console.log(file);
       },
+      // 上传前
+      handleBeforeUpload(file) {
+        console.log("=======上传文件前 handleBeforeUpload=======");
+        const isLt10M = file.size / 1024 / 1024 < 99
+        if (!isLt10M) {
+          this.fileSizeMax = false
+          this.$message.error('上传文件大小不能超过 99MB!')
+          return false;
+        }else{
+          this.fileSizeMax = true
+        }
+      },
       // 上传文件到服务器
       submitUpload() {
         console.log("=======上传文件到服务器 submitUpload=======")
@@ -256,19 +272,6 @@
       handleFileUploadSuccess (file) {
         console.log("=======文件上传成功时的函数 handleFileUploadSuccess=======")
         this.$message.success("上传成功")
-      },
-      getTime(){
-        var that = this;
-        let yy = new Date().getFullYear();
-        let mm = (new Date().getMonth()+ 1 + '').padStart(2, '0');
-        let dd = (new Date().getDate() + '').padStart(2, '0');
-        let hh = new Date().getHours();
-        let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
-        let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
-        that.gettime = yy+mm+dd+hh+mf+ss;
-        // console.log(that.gettime)  
-        //赋值你的变量
-        return that.gettime
       },
     },
   }
