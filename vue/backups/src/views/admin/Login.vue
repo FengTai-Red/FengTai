@@ -6,7 +6,7 @@
       </el-header>
       <el-main>
         <div>
-          <el-form ref="form" :model="loginForm" :rules="rules" class="login-form">
+          <el-form ref="loginForm" :model="loginForm" :rules="rules" class="login-form">
             <el-form-item prop="username">
               <el-input
                 v-model="loginForm.username"
@@ -36,9 +36,13 @@
 
 
 <script>
-  import axios from "axios"
+  import axios from "axios";
+  var controllerPath = '';
   export default {
     name: "Login",
+    created(){
+      controllerPath = this.$config.controllerPath
+    },
     data() {
       return {
         loginForm: {
@@ -47,32 +51,44 @@
         },
         rules: {
           username: [
-            { required: true, message: '请输入用户名', trigger: 'blur'},
+            { required: true, message: '不能为空', trigger: 'blur'},
           ],
           password: [
-            { required: true, message: '请输入密码', trigger: 'blur'},
+            { required: true, message: '不能为空', trigger: 'blur'},
           ],
         },
       };
     },
     methods: {
       login(loginForm){
-        console.log(loginForm);
-        const that = this
-        axios.post('http://127.0.0.1:8181/login', loginForm).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-            sessionStorage.setItem('isLogin',1);
-            that.$router.push({
-              path: "/admin/PostList",
+        this.$refs.loginForm.validate((valid) => {
+          if(valid){
+            console.log(loginForm);
+            const that = this
+            axios.post(controllerPath + '/login', loginForm).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('验证通过');
+                sessionStorage.setItem('isLogin',1);
+                that.$router.push({
+                  path: "/admin/PostList",
+                })
+              }else{
+                console.log('验证失败');
+                that.$message({
+                  type: 'warning',
+                  message: '验证失败'
+                });
+              }
             })
           }else{
-            console.log('验证失败');
-            that.$message({
-              type: 'warning',
-              message: '验证失败'
-            });
+            console.log("校验失败");
           }
+        })
+      },
+      postview(){
+        console.log("aaaaaaaa");
+        this.$router.push({
+          path: "/",
         })
       },
     },

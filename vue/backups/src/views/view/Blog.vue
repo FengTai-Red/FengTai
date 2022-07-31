@@ -51,13 +51,15 @@
 </template>
 
 <script>
-  import { useRouter } from 'vue-router';
-  import axios from "axios";
+  import { useRouter } from 'vue-router'
+  import axios from "axios"
+  var controllerPath = ''
   var pageNum = 1;
   export default {
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/post/published/page/1/6').then(function (resp){
+      axios.get(controllerPath + '/post/published/page/1/6').then(function (resp){
         _this.blogData = resp.data.content;
         _this.pageFirst = resp.data.first;
         _this.pageLast = resp.data.last;
@@ -90,7 +92,7 @@
       pageNext(){
         pageNum += 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/post/published/page/'+ pageNum + '/6').then(function (resp){
+        axios.get(controllerPath + '/post/published/page/'+ pageNum + '/6').then(function (resp){
           _this.blogData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;
@@ -99,7 +101,7 @@
       pagePrev(){
         pageNum -= 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/post/published/page/'+ pageNum+ '/6').then(function (resp){
+        axios.get(controllerPath + '/post/published/page/'+ pageNum+ '/6').then(function (resp){
           _this.blogData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;

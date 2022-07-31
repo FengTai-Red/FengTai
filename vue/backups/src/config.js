@@ -63,4 +63,36 @@ export default {
     '#867835', // 黄海松茶
     '#B9887D', // 水がき
   ],
+  /**
+   * 分类的图标
+   */
+  categoryIconOptions: [
+    {value: 'clannad1.jpg', label: 'clannad1.jpg'},
+    {value: 'clannad2.jpg', label: 'clannad2.jpg'},
+    {value: 'clannad3.jpg', label: 'clannad3.jpg'},
+    {value: 'clannad4.jpg', label: 'clannad4.jpg'},
+    {value: 'clannad5.jpg', label: 'clannad5.jpg'},
+    {value: 'clannad6.jpg', label: 'clannad6.jpg'},
+    {value: 'clannad7.jpg', label: 'clannad7.jpg'},
+    {value: 'clannad8.jpg', label: 'clannad8.jpg'},
+    {value: 'clannad9.jpg', label: 'clannad9.jpg'},
+  ],
+  /**
+   * 分类的背景图
+   */
+  categoryBgOptions: [
+    {value: 'A_KianaKaslana.jpg', label: 'A_KianaKaslana.jpg'},
+    {value: 'B_RaidenMei.jpg', label: 'B_RaidenMei.jpg'},
+    {value: 'C_BronyaZaychik.jpg', label: 'C_BronyaZaychik.jpg'},
+    {value: 'D_MurataHimeko.jpg', label: 'D_MurataHimeko.jpg'},
+    {value: 'E_TheresaApocalypse.jpg', label: 'E_TheresaApocalypse.jpg'},
+    {value: 'F_SeeleVollerei.jpg', label: 'F_SeeleVollerei.jpg'},
+    {value: 'G_SinMal.jpg', label: 'G_SinMal.jpg'},
+    {value: 'H_HouraijiKyuusyou.jpg', label: 'H_HouraijiKyuusyou.jpg'},
+    {value: 'I_YssringLeavtruth.jpg', label: 'I_YssringLeavtruth.jpg'},
+  ],
+  /**
+   * 后端接口路径
+   */
+   controllerPath: 'http://127.0.0.1:8181',
 }

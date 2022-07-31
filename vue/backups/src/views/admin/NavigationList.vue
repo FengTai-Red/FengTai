@@ -30,21 +30,21 @@
     <!-- 编辑窗 -->
     <div>
       <el-dialog title="编辑" v-model="upDialogVisible" width="50%" >
-        <el-form ref="form" :model="updataNavigation" label-width="80px">
-          <el-form-item label="网站名">
-            <el-input v-model="updataNavigation.name"></el-input>
+        <el-form ref="updateForm" :model="updateNavigation" :rules="rules" label-width="80px">
+          <el-form-item label="网站名" prop="name">
+            <el-input v-model="updateNavigation.name" maxlength="7"></el-input>
           </el-form-item>
-          <el-form-item label="简介">
-            <el-input v-model="updataNavigation.description"></el-input>
+          <el-form-item label="简介" prop="description">
+            <el-input v-model="updateNavigation.description" maxlength="23"></el-input>
           </el-form-item>
-          <el-form-item label="地址">
-            <el-input v-model="updataNavigation.path"></el-input>
+          <el-form-item label="地址" prop="path">
+            <el-input v-model="updateNavigation.path" maxlength="23"></el-input>
           </el-form-item>
         </el-form>
         <template v-slot:footer>
         <span class="dialog-footer">
           <el-button @click="upDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleUpload(updataNavigation)">确 定</el-button>
+          <el-button type="primary" @click="handleUpload(updateNavigation)">确 定</el-button>
         </span>
         </template>
       </el-dialog>
@@ -52,15 +52,15 @@
     <!-- 新增窗 -->
     <div>
       <el-dialog title="新增" v-model="addDialogVisible" width="50%" >
-        <el-form ref="form" :model="addNavigation" label-width="80px">
-          <el-form-item label="网站名">
-            <el-input v-model="addNavigation.name"></el-input>
+        <el-form ref="addForm" :model="addNavigation" :rules="rules" label-width="80px">
+          <el-form-item label="网站名"  prop="name">
+            <el-input v-model="addNavigation.name" maxlength="7"></el-input>
           </el-form-item>
-          <el-form-item label="简介">
-            <el-input v-model="addNavigation.description"></el-input>
+          <el-form-item label="简介"  prop="description">
+            <el-input v-model="addNavigation.description" maxlength="23"></el-input>
           </el-form-item>
-          <el-form-item label="地址">
-            <el-input v-model="addNavigation.path"></el-input>
+          <el-form-item label="地址"  prop="path">
+            <el-input v-model="addNavigation.path" maxlength="23"></el-input>
           </el-form-item>
         </el-form>
         <template v-slot:footer>
@@ -75,12 +75,14 @@
 </template>
 
 <script>
-  import axios from "axios"
+  import axios from "axios";
+  var controllerPath = '';
   export default {
     name: "Upload",
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/navigation/page/1/10').then(function (resp){
+      axios.get(controllerPath + '/navigation/page/1/10').then(function (resp){
         _this.navigationData = resp.data.content
         _this.totalElements = resp.data.totalElements
       })
@@ -93,7 +95,7 @@
         visible: null,
         upDialogVisible: false,
         addDialogVisible: false,
-        updataNavigation: {
+        updateNavigation: {
           name: '',
           description: '',
           path: '',
@@ -102,13 +104,24 @@
           name: '',
           description: '',
           path: '',
-        }
+        },
+        rules: {
+          name: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          description: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+          path: [
+            { required: true, message: '不能为空', trigger: 'blur'},
+          ],
+        },
       }
     },
     methods: {
       page(currentPage){
         const _this = this
-        axios.get('http://127.0.0.1:8181/navigation/page/'+ currentPage+ '/10').then(function (resp){
+        axios.get(controllerPath + '/navigation/page/'+ currentPage+ '/10').then(function (resp){
           _this.navigationData = resp.data.content
           _this.totalElements = resp.data.totalElements
           _this.size = resp.data.size
@@ -117,8 +130,8 @@
 			handEdit(id) {
         const _this = this
 				this.upDialogVisible = true;
-        axios.get('http://127.0.0.1:8181/navigation/' + id).then(function (resp){
-          _this.updataNavigation = resp.data
+        axios.get(controllerPath + '/navigation/' + id).then(function (resp){
+          _this.updateNavigation = resp.data
         })
 			},
       handleDelete(id){
@@ -127,7 +140,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.delete('http://127.0.0.1:8181/admin/navigation/deleteNavigation/' + id)
+          axios.delete(controllerPath + '/admin/navigation/deleteNavigation/' + id)
           window.location.reload();  // 刷新窗口
         }).catch(() => {
           this.$message({
@@ -136,33 +149,46 @@
           });          
         });
       },
-			handleUpload (updataNavigation) {
-        const _this = this
-				this.upDialogVisible = false
-        axios.put('http://127.0.0.1:8181/admin/navigation/updateNavigation', updataNavigation).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-          }else{
-            alert('修改失败')
+			handleUpload (updateNavigation) {
+        this.$refs.updateForm.validate((valid) => {
+          if (valid) {
+            const _this = this
+            this.upDialogVisible = false
+            axios.put(controllerPath + '/admin/navigation/updateNavigation', updateNavigation).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('成功');
+              }else{
+                alert('修改失败')
+              }
+            })
+            window.location.reload();  // 刷新窗口
+          } else {
+            console.log("校验失败");
           }
         })
-        window.location.reload();  // 刷新窗口
 			},
 			add() {
         const _this = this
 				this.addDialogVisible = true;
 			},
       handleAdd(addNavigation){
-        const _this = this
-				this.addDialogVisible = false
-        axios.post('http://127.0.0.1:8181/admin/navigation/save', addNavigation).then(function(resp) {
-          if (resp.data == 'success'){
-            console.log('成功');
-          }else{
-            alert('新增失败')
+        this.$refs.addForm.validate((valid) => {
+          if (valid) {
+            const _this = this
+            this.addDialogVisible = false
+            axios.post(controllerPath + '/admin/navigation/save', addNavigation).then(function(resp) {
+              if (resp.data == 'success'){
+                console.log('成功');
+              }else{
+                alert('新增失败')
+              }
+            })
+            window.location.reload();  // 刷新窗口
+          } else {
+            console.log("校验失败");
           }
         })
-        window.location.reload();  // 刷新窗口
+
       }
     },
   }

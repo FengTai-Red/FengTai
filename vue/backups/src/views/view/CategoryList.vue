@@ -55,12 +55,14 @@
 <script>
   import { useRouter } from 'vue-router';
   import { shuffle } from '@/utils';
-  import axios from "axios"
+  import axios from "axios";
+  var controllerPath = '';
   var pageNum = 1;
   export default {
       created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/categoryList/published/' + this.$route.query.id + '/page/1/6').then(function(resp){
+      axios.get(controllerPath + '/categoryList/published/' + this.$route.query.id + '/page/1/6').then(function(resp){
         _this.blogData = resp.data.content;
         _this.pageFirst = resp.data.first;
         _this.pageLast = resp.data.last;
@@ -97,7 +99,7 @@
       pageNext(category){
         pageNum += 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/categoryList/published/' + category + '/page/' + pageNum + '/6').then(function (resp){
+        axios.get(controllerPath + '/categoryList/published/' + category + '/page/' + pageNum + '/6').then(function (resp){
           _this.blogData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;
@@ -106,7 +108,7 @@
       pagePrev(category){
         pageNum -= 1;
         const _this = this
-        axios.get('http://127.0.0.1:8181/categoryList/published/' + category + '/page/' + pageNum + '/6').then(function (resp){
+        axios.get(controllerPath + '/categoryList/published/' + category + '/page/' + pageNum + '/6').then(function (resp){
           _this.blogData = resp.data.content;
           _this.pageFirst = resp.data.first;
           _this.pageLast = resp.data.last;

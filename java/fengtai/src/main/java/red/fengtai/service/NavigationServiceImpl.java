@@ -13,11 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import red.fengtai.entity.Navigation;
 import red.fengtai.repository.NavigationRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class NavigationServiceImpl implements NavigationService{
 
     @Autowired
     private NavigationRepository navigationRepository;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Transactional
     @Override
@@ -38,11 +42,13 @@ public class NavigationServiceImpl implements NavigationService{
 
     @Override
     public void saveNavigation(Navigation navigation) { 
+        logger.info("Request-保存一个网址," + navigation.getName());
         navigationRepository.save(navigation);
     }
 
     @Override
     public Navigation updateNavigationById(Navigation navigation) {
+        logger.info("Request-更新一个网址," + navigation.getName());
         Navigation navigation2 = navigationRepository.findById(navigation.getId()).get();
         BeanUtils.copyProperties(navigation, navigation2);
         return navigationRepository.save(navigation2);
@@ -50,6 +56,7 @@ public class NavigationServiceImpl implements NavigationService{
 
     @Override
     public void deleteNavigationById(Long id) {
+        logger.info("Request-删除一个网址," + id);
         navigationRepository.deleteById(id);
     }
 

@@ -39,7 +39,8 @@ public class PostServiceImpl implements PostService{
     @Value("${img.file.root.path}")  // 将 yml 中的自定义配置注入到这里
     private String filePath;
     private String newFileName;
-    private String imgPath = "http://127.0.0.1:8181/img/";
+    @Value("${img.file.post.path}")
+    private String imgPath= "http://127.0.0.1:8181/img/";
 
     @Transactional
     @Override
@@ -64,6 +65,7 @@ public class PostServiceImpl implements PostService{
         }else {
             post.setUpdateTime(new Date());
         }
+        logger.info("Request-保存一篇文章," + post.getTitle());
         postRepository.save(post);
     }
 
@@ -75,6 +77,7 @@ public class PostServiceImpl implements PostService{
         String fileName = file.getOriginalFilename();
         // 时间 和 日期拼接
         newFileName = format + "_" + fileName;
+        System.out.println(imgPath);
         // 得到文件保存的位置以及新文件名
         File dest = new File(filePath + newFileName);
         ImgResult imgResult = new ImgResult();
@@ -84,7 +87,7 @@ public class PostServiceImpl implements PostService{
             // 上传的文件被保存了
             file.transferTo(dest);
             // 打印日志
-            logger.info("Request : 文件上传：" + newFileName);
+            logger.info("Request-文章图片上传：" + newFileName);
             // 自定义返回的统一的 JSON 格式的数据，可以直接返回这个字符串也是可以的。
             return imgResult.success(url);
         } catch (IOException e) {
@@ -96,7 +99,6 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public String showPostImg(String fileName){
-        System.out.println(imgPath);
         String url = imgPath + fileName;
         return url;
     }
@@ -108,6 +110,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public Post updatePostById(Post post) {
+        logger.info("Request-更新文章：" + post.getTitle());
         Post post2 = postRepository.findById(post.getId()).get();
         BeanUtils.copyProperties(post, post2);
         return postRepository.save(post2);
@@ -115,6 +118,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public void deletePostById(Long id) {
+        logger.info("Request-删除文章：" + id);
         postRepository.deleteById(id);    
     }
 
@@ -125,6 +129,11 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public Post findOnePostById(Long id) {
+        Post post = postRepository.findById(id).get();
+        post.setViews(post.getViews() + 1);
+        Post post2 = postRepository.findById(post.getId()).get();
+        BeanUtils.copyProperties(post, post2);
+        postRepository.save(post);
         return postRepository.findById(id).get();
     }
 

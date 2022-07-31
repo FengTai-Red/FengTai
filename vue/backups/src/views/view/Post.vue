@@ -34,11 +34,13 @@
   import "@/assets/js/prism/prism-autoloader.js"
   import '@/assets/css/components/markDownPrism.css'
   import '@/assets/css/components/markDownView.css'
-  import axios from "axios"
+  import axios from "axios";
+  var controllerPath = '';
   export default {
     created(){
+      controllerPath = this.$config.controllerPath
       const _this = this
-      axios.get('http://127.0.0.1:8181/post/' + this.$route.query.id).then(function(resp){
+      axios.get(controllerPath + '/post/' + this.$route.query.id).then(function(resp){
         _this.postData = resp.data;
       })
     },

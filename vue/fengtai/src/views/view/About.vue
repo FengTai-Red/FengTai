@@ -32,7 +32,7 @@
                 <span>{{segment.label}}</span>
               </div>
               <div class="markdown">
-                <p style="padding-left: 30px;">{{segment.markdown}}</p>
+                <p style="padding-left: 30px; padding-right: 20px;">{{segment.markdown}}</p>
               </div>
             </div>
           </div>

@@ -121,14 +121,4 @@ public class PostController {
     public ImgResult savePostImg(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IOException {
         return postService.postImgUploads(request, file);
     }
-
-    /**
-     * 显示图片
-     * @return
-     */
-    @GetMapping("/post/showimg/{name}")
-    public String showPhotos(@PathVariable("name") String name){
-        return postService.showPostImg(name);
-    }
-
 }

@@ -70,12 +70,14 @@ public class ToolServiceImpl implements ToolService{
                 break;
             }
         }
+        logger.info("Request-保存一个工具：" + tool.getName());
         tool.setPath(newFileName);
         toolRepository.save(tool);
     }
 
     @Override
     public Tool updateToolById(Tool tool) {
+        logger.info("Request-更新一个工具：" + tool.getName());
         Tool tool2 = toolRepository.findById(tool.getId()).get();
         tool.setPath(newFileName);
         BeanUtils.copyProperties(tool, tool2);

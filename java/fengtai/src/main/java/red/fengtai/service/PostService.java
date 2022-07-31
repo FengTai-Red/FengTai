@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import red.fengtai.entity.ImgResult;
 import red.fengtai.entity.Post;
-import red.fengtai.entity.ToolResult;
 
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -99,4 +98,5 @@ public interface PostService {
      * @param post
      */
     void deletePostById(Long id);
+
 }

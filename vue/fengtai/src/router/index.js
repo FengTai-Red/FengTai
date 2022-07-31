@@ -107,6 +107,12 @@ const routes = [
         description: '统计原神账号信息',
         component: () => import("../views/view/laboratory/GenshinInfo.vue")
       },
+      {
+        path: '/Laboratory/IDmunber',
+        name: '号码生成',
+        description: '号码生成',
+        component: () => import("../views/view/laboratory/IDmunber.vue")
+      },
     ]
   },
   {

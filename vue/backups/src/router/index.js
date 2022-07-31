@@ -95,6 +95,24 @@ const routes = [
         description: '测试用',
         component: () => import("../views/view/laboratory/Test.vue")
       },
+      {
+        path: '/Laboratory/BV2AV',
+        name: 'BV号转AV号',
+        description: '将BV号转为AV号',
+        component: () => import("../views/view/laboratory/BV2AV.vue")
+      },
+      {
+        path: '/Laboratory/GenshinInfo',
+        name: '原神信息',
+        description: '统计原神账号信息',
+        component: () => import("../views/view/laboratory/GenshinInfo.vue")
+      },
+      {
+        path: '/Laboratory/IDmunber',
+        name: '号码生成',
+        description: '号码生成',
+        component: () => import("../views/view/laboratory/IDmunber.vue")
+      },
     ]
   },
   {
