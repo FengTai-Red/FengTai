@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import red.fengtai.entity.User;
-import red.fengtai.service.UserService;
+import red.fengtai.service.UserServiceImpl;
 
 /**
  * 登录
@@ -18,7 +18,7 @@ import red.fengtai.service.UserService;
 public class LoginController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     /**
      * 保存一个user

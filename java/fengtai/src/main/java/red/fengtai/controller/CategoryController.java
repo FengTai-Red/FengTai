@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import red.fengtai.entity.Category;
-import red.fengtai.service.CategoryService;
+import red.fengtai.service.CategoryServiceImpl;
 
 /**
  * 分类管理
@@ -24,7 +24,7 @@ import red.fengtai.service.CategoryService;
 public class CategoryController {
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryServiceImpl categoryService;
 
     /**
      * 查询全部

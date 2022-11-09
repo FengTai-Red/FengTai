@@ -10,13 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import red.fengtai.entity.User;
-import red.fengtai.service.UserService;
+import red.fengtai.service.UserServiceImpl;
 
 @Component
 public class UserInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override

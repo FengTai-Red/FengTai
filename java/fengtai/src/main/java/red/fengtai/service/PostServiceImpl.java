@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl{
     
     @Autowired
     private PostRepository postRepository;
@@ -42,13 +42,21 @@ public class PostServiceImpl implements PostService{
     @Value("${img.file.post.path}")
     private String imgPath= "http://127.0.0.1:8181/img/";
 
+    /**
+     * 查询所有数据
+     * @return
+     */
     @Transactional
-    @Override
     public List<Post> findAllPost() {
         return postRepository.findAll();
     }
 
-    @Override
+    /**
+     * 翻页查询数据
+     * @param page 页数
+     * @param size 每页数量
+     * @return
+     */
     public Page<Post> findPageablePost(Integer page, Integer size) {
         Order order = new Order(Direction.DESC,"createTime");
         Sort sort = Sort.by(order,order);
@@ -56,7 +64,10 @@ public class PostServiceImpl implements PostService{
         return postRepository.findAll(pageable);
     }
 
-    @Override
+    /**
+     * 根据id查找一个post
+     * @return
+     */
     public void savePost(Post post) {
         if (post.getId() == null){
             post.setCreateTime(new Date());
@@ -69,7 +80,13 @@ public class PostServiceImpl implements PostService{
         postRepository.save(post);
     }
 
-    @Override
+    /**
+     * 文章图片上传
+     * @param request
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public ImgResult postImgUploads(HttpServletRequest request, MultipartFile file) throws IOException {
         // 得到格式化后的日期
         String format = simpleDateFormat.format(new Date());
@@ -97,18 +114,24 @@ public class PostServiceImpl implements PostService{
         return imgResult.error(url);
     }
 
-    @Override
+    /**
+     * 显示文章图片
+     */
     public String showPostImg(String fileName){
         String url = imgPath + fileName;
         return url;
     }
 
-    @Override
+    /**
+     * 根据id查找一个post
+     */
     public Post findPostById(Long id) {
         return postRepository.findById(id).get();
     }
 
-    @Override
+    /**
+     * 更新Post
+     */
     public Post updatePostById(Post post) {
         logger.info("Request-更新文章：" + post.getTitle());
         Post post2 = postRepository.findById(post.getId()).get();
@@ -116,18 +139,26 @@ public class PostServiceImpl implements PostService{
         return postRepository.save(post2);
     }
 
-    @Override
+    /**
+     * 删除Post
+     */
     public void deletePostById(Long id) {
         logger.info("Request-删除文章：" + id);
         postRepository.deleteById(id);    
     }
 
-    @Override
+    /**
+     * 根据category查询
+     * @param category
+     * @return
+     */
     public List<Post> findPostByCategory(String category) {
         return postRepository.findByCategory(category);
     }
 
-    @Override
+    /**
+     * 根据id查找一个post
+     */
     public Post findOnePostById(Long id) {
         Post post = postRepository.findById(id).get();
         post.setViews(post.getViews() + 1);
@@ -137,7 +168,9 @@ public class PostServiceImpl implements PostService{
         return postRepository.findById(id).get();
     }
 
-    @Override
+    /**
+     * 按category和published查询
+     */
     public Page<Post> findByCategoryAndPublished(String category, Integer page, Integer size) {
         boolean published = true;
         Order order = new Order(Direction.DESC,"createTime");
@@ -146,7 +179,9 @@ public class PostServiceImpl implements PostService{
         return postRepository.findByCategoryAndPublished(category, published, pageable);
     }
 
-    @Override
+    /**
+     * 根据published分页查询
+     */
     public Page<Post> findPageablePostByPublished(Integer page, Integer size) {
         boolean published = true;
         Order order = new Order(Direction.DESC,"createTime");

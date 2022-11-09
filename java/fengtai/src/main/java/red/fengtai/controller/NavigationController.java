@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import red.fengtai.entity.Navigation;
-import red.fengtai.service.NavigationService;
+import red.fengtai.service.NavigationServiceImpl;
 
 @RestController
 @RequestMapping
@@ -22,7 +22,7 @@ public class NavigationController {
     
     
     @Autowired
-    private NavigationService navigationService;
+    private NavigationServiceImpl navigationService;
 
     /**
      * 查询所有Navigation

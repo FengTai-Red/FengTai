@@ -31,7 +31,7 @@ import red.fengtai.entity.ToolResult;
 import red.fengtai.repository.ToolRepository;
 
 @Service
-public class ToolServiceImpl implements ToolService{
+public class ToolServiceImpl{
 
     private String newFileName;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日_HH时mm分ss秒");  // 设置固定的日期格式
@@ -41,24 +41,39 @@ public class ToolServiceImpl implements ToolService{
     private String filePath;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+
+    /**
+     * 查询所有Tool
+     */
     @Transactional
-    @Override
     public List<Tool> findAllTool() {
         return toolRepository.findAll();
     }
 
-    @Override
+    /**
+     * 翻页查询数据
+     * @param page 页数
+     * @param size 每页数量
+     * @return
+     */
     public Page<Tool> findPageableTool(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page-1, size);
         return toolRepository.findAll(pageable);
     }
 
-    @Override
+    /**
+     * 查询一个tool
+     * @return
+     */
     public Tool findOneToolById(Long id) {
         return toolRepository.findById(id).get();
     }
 
-    @Override
+    /**
+     * 保存一个tool
+     * @param tool
+     * @return
+     */
     public void saveTool(Tool tool) {
         for (int i = 0; i < 10; i++) {
             try {
@@ -75,7 +90,11 @@ public class ToolServiceImpl implements ToolService{
         toolRepository.save(tool);
     }
 
-    @Override
+    /**
+     * 更新tool
+     * @param tool
+     * @return
+     */
     public Tool updateToolById(Tool tool) {
         logger.info("Request-更新一个工具：" + tool.getName());
         Tool tool2 = toolRepository.findById(tool.getId()).get();
@@ -84,7 +103,10 @@ public class ToolServiceImpl implements ToolService{
         return toolRepository.save(tool2);
     }
 
-    @Override
+    /**
+     * 删除一个tool
+     * @param id
+     */
     public void deleteToolById(Long id) {
         Tool tool = findOneToolById(id);
         String fileName = tool.getPath();  // 文件名
@@ -98,7 +120,12 @@ public class ToolServiceImpl implements ToolService{
         }
     }
 
-    @Override
+    /**
+     * 下载文件
+     * @param response
+     * @param id
+     * @return
+     */
     public String downloadFile(HttpServletResponse response, Long id) {
         Tool tool = toolRepository.findById(id).get();
         String fileName = tool.getPath();  // 文件名
@@ -144,7 +171,13 @@ public class ToolServiceImpl implements ToolService{
         return "下载失败";
     }
 
-    @Override
+    /**
+     * 上传文件
+     * @param request
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public ToolResult fileUploads(HttpServletRequest request, MultipartFile file) throws IOException {
         // 得到格式化后的日期
         String format = simpleDateFormat.format(new Date());

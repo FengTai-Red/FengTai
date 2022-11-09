@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import red.fengtai.entity.Tool;
 import red.fengtai.entity.ToolResult;
-import red.fengtai.service.ToolService;
+import red.fengtai.service.ToolServiceImpl;
 
 @Api(value = "文件上传，下载相关功能")
 @RestController
@@ -32,7 +32,7 @@ import red.fengtai.service.ToolService;
 public class ToolController {
     
     @Autowired
-    private ToolService toolService;
+    private ToolServiceImpl toolService;
     @Value("${gorit.file.root.path}")  // 将 yml 中的自定义配置注入到这里
 
     /**

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import red.fengtai.entity.Post;
-import red.fengtai.service.PostService;
+import red.fengtai.service.PostServiceImpl;
 
 /**
  * 分类管理
@@ -18,7 +18,7 @@ import red.fengtai.service.PostService;
 public class CategoryListController {
 
     @Autowired
-    private PostService postService;
+    private PostServiceImpl postService;
     /**
      * 根据category查询published为ture的post
      * @param category

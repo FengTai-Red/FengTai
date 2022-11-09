@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import red.fengtai.entity.ImgResult;
 import red.fengtai.entity.Post;
-import red.fengtai.service.PostService;
+import red.fengtai.service.PostServiceImpl;
 /**
  * 首页
  */
@@ -29,7 +29,7 @@ import red.fengtai.service.PostService;
 public class PostController {
 
     @Autowired
-    private PostService postService;
+    private PostServiceImpl postService;
 
 
     /**

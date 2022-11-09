@@ -11,25 +11,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl{
 
     @Autowired
     private UserRepository userRepository;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
+    /**
+     * 验证用户
+     * @param username
+     * @param password
+     * @return
+     */
     public User checkUser(String username, String password) {
         User user = userRepository.findByUsernameAndPassword(username, MD5Util.code(password));
         return user;
     }
 
-    @Override
+    /**
+     * 更新权限
+     * @param user
+     * @return
+     */
     public void updateJurisdictionById(Long id, Boolean jurisdiction) {
         logger.info("Request-更新用户状态," + jurisdiction);
         userRepository.updateJurisdictionById(id, jurisdiction);
     }
 
-    @Override
+    /**
+     * 验证权限
+     * @param id
+     * @return
+     */
     public User findUserById(Long id) {
         User user = userRepository.findById(id).get();
         return user;

@@ -17,36 +17,55 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl{
 
     @Autowired
     private CategoryRepository categoryRepository;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * 查询所有数据
+     * @return
+     */
     @Transactional
-    @Override
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
 
-    @Override
+    /**
+     * 翻页查询
+     * @param page
+     * @param size
+     * @return
+     */
     public Page<Category> findPageableCategory(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page-1, size);
         return categoryRepository.findAll(pageable);
     }
 
-    @Override
+    /**
+     * 查询一个category
+     * @return
+     */
     public Category findOneCategoryById(Long id) {
         return categoryRepository.findById(id).get();
     }
 
-    @Override
+    /**
+     * 保存一个category
+     * @param category
+     * @return
+     */
     public void saveCategory(Category category) { 
         logger.info("Request-新增一个分类," + category.getName());
         categoryRepository.save(category);
     }
 
-    @Override
+    /**
+     * 更新category
+     * @param category
+     * @return
+     */
     public Category updateCategoryById(Category category) {
         logger.info("Request-更新分类," + category.getName());
         Category category2 = categoryRepository.findById(category.getId()).get();
@@ -54,7 +73,10 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryRepository.save(category2);
     }
 
-    @Override
+    /**
+     * 删除一个category
+     * @param id
+     */
     public void deleteCategoryById(Long id) {
         logger.info("Request-删除分类," + id);
         categoryRepository.deleteById(id);

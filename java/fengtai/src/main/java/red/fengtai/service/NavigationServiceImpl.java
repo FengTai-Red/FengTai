@@ -17,36 +17,55 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class NavigationServiceImpl implements NavigationService{
+public class NavigationServiceImpl{
 
     @Autowired
     private NavigationRepository navigationRepository;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * 查询所有Navigation
+     * @return
+     */
     @Transactional
-    @Override
     public List<Navigation> findAllNavigation() {
         return navigationRepository.findAll();
     }
 
-    @Override
+    /**
+     * 翻页查询
+     * @param page
+     * @param size
+     * @return
+     */
     public Page<Navigation> findPageableNavigation(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page-1, size);
         return navigationRepository.findAll(pageable);
     }
 
-    @Override
+    /**
+     * 查询一个navigation
+     * @return
+     */
     public Navigation findOneNavigationById(Long id) {
         return navigationRepository.findById(id).get();
     }
 
-    @Override
+    /**
+     * 保存一个navigation
+     * @param navigation
+     * @return
+     */
     public void saveNavigation(Navigation navigation) { 
         logger.info("Request-保存一个网址," + navigation.getName());
         navigationRepository.save(navigation);
     }
 
-    @Override
+    /**
+     * 更新navigation
+     * @param navigation
+     * @return
+     */
     public Navigation updateNavigationById(Navigation navigation) {
         logger.info("Request-更新一个网址," + navigation.getName());
         Navigation navigation2 = navigationRepository.findById(navigation.getId()).get();
@@ -54,7 +73,10 @@ public class NavigationServiceImpl implements NavigationService{
         return navigationRepository.save(navigation2);
     }
 
-    @Override
+    /**
+     * 删除一个navigation
+     * @param id
+     */
     public void deleteNavigationById(Long id) {
         logger.info("Request-删除一个网址," + id);
         navigationRepository.deleteById(id);
