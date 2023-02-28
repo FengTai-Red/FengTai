@@ -32,3 +32,5 @@
 由于会报这个提示：
 Failed to refresh live data from process 8092 after retries: 10
 所以再首选项中把Live Information给去掉了
+
+
