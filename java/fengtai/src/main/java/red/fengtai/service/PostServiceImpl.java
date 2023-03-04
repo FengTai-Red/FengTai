@@ -40,7 +40,8 @@ public class PostServiceImpl{
     private String filePath;
     private String newFileName;
     @Value("${img.file.post.path}")
-    private String imgPath= "http://127.0.0.1:8181/file/img/";
+    // private String imgPath= "http://127.0.0.1:8181/file/img/";
+    private String imgPath= "http://8.218.53.237:81/file/img/";
 
     /**
      * 查询所有数据

@@ -73,7 +73,9 @@
 
       editorConfig.MENU_CONF['uploadImage'] = {
           // 上传图片的配置
-          server: 'http://127.0.0.1:8181/admin/post/img/upload',
+          // server: 'http://127.0.0.1:8181/admin/post/img/upload',
+          // server: 'http://192.168.2.128:8181/admin/post/img/upload',
+          server: 'http://8.218.53.237:81/admin/post/img/upload',
           fieldName: 'file',
           maxFileSize: 10 * 1024 * 1024, // 1M
       }

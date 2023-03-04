@@ -60,7 +60,7 @@
             <span style="width: 300px;">
               <el-upload class="upload-demo" 
                 ref="upload" 
-                action="http://localhost:8181/admin/tool/upload" 
+                action="http://8.218.53.237:81/admin/tool/upload" 
                 name="file"
                 :auto-upload="false" 
                 :limit="1" 

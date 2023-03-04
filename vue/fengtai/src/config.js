@@ -10,7 +10,7 @@ export default {
    */
   aboutOpts: {
     avatar: 'feng.png',
-    motto: '莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生',
+    motto: '长恨此身非我有，何时忘却营营。夜阑风静縠纹平。小舟从此逝，江海寄余生',
     contact:[
       {
         icon: 'clannad1.jpg',
@@ -94,5 +94,7 @@ export default {
   /**
    * 后端接口路径
    */
-   controllerPath: 'http://127.0.0.1:8181',
+   // controllerPath: 'http://127.0.0.1:8181',
+   // controllerPath: 'http://192.168.2.128:8181',
+   controllerPath: 'http://8.218.53.237:81',
 }
