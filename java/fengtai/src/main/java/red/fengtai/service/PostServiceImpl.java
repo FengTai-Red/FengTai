@@ -40,8 +40,7 @@ public class PostServiceImpl{
     private String filePath;
     private String newFileName;
     @Value("${img.file.post.path}")
-    // private String imgPath= "http://127.0.0.1:8181/file/img/";
-    private String imgPath= "http://8.218.53.237:81/file/img/";
+    private String imgPath;
 
     /**
      * 查询所有数据
@@ -95,12 +94,13 @@ public class PostServiceImpl{
         String fileName = file.getOriginalFilename();
         // 时间 和 日期拼接
         newFileName = format + "_" + fileName;
-        System.out.println(imgPath);
         // 得到文件保存的位置以及新文件名
         File dest = new File(filePath + newFileName);
         ImgResult imgResult = new ImgResult();
-        PostServiceImpl postServiceImpl = new PostServiceImpl();
-        String url = postServiceImpl.showPostImg(newFileName);
+        // PostServiceImpl postServiceImpl = new PostServiceImpl();
+        // String url = postServiceImpl.showPostImg(newFileName);
+        String url = imgPath + newFileName;
+        System.out.println("===============" + url + "================");
         try {
             // 上传的文件被保存了
             file.transferTo(dest);
@@ -118,10 +118,11 @@ public class PostServiceImpl{
     /**
      * 显示文章图片
      */
-    public String showPostImg(String fileName){
-        String url = imgPath + fileName;
-        return url;
-    }
+    // public String showPostImg(String fileName){
+
+    //     String url = imgPath + fileName;
+    //     return url;
+    // }
 
     /**
      * 根据id查找一个post

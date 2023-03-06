@@ -33,10 +33,11 @@
 <script>
   import { useRouter } from 'vue-router';
   import axios from "axios";
-  var controllerPath = '';
+  const appConfig = require("../../config");
+  var controllerPath =appConfig.default.controllerPath;
+  
   export default {
     created(){
-      controllerPath = this.$config.controllerPath
       const _this = this
       axios.get(controllerPath + '/category/findAll').then(function (resp){
         _this.categoryData = resp.data;

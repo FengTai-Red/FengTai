@@ -23,10 +23,11 @@
   import axios from "axios";
   import { defineComponent, ref } from 'vue';
   import { useRouter } from 'vue-router';
-  var controllerPath = '';
+  const appConfig = require("../../config");
+  var controllerPath =appConfig.default.controllerPath;
+
   export default defineComponent({
     created(){
-      controllerPath = this.$config.controllerPath
     },
     setup() {
       const router = useRouter();

@@ -48,10 +48,11 @@
   import { shuffle } from '@/utils';
   import axios from "axios";
   var pageNum = 1;
-  var controllerPath = '';
+  const appConfig = require("../../config");
+  var controllerPath =appConfig.default.controllerPath;
+  
   export default {
     created(){
-      controllerPath = this.$config.controllerPath
       const _this = this;
       axios.get(controllerPath + '/navigation/page/1/6').then(function (resp){
         _this.navigatData = resp.data.content;

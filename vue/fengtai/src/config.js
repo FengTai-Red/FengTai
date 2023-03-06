@@ -94,7 +94,7 @@ export default {
   /**
    * 后端接口路径
    */
-   // controllerPath: 'http://127.0.0.1:8181',
+   controllerPath: 'http://127.0.0.1:81',
    // controllerPath: 'http://192.168.2.128:8181',
-   controllerPath: 'http://8.218.53.237:81',
+   // controllerPath: 'http://8.218.53.237:81',
 }

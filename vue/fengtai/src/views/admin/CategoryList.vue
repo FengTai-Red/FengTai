@@ -96,11 +96,11 @@
 
 <script>
   import axios from "axios";
-  var controllerPath = '';
+  const appConfig = require("../../config")
+  var controllerPath =appConfig.default.controllerPath
   export default {
     name: "Upload",
     created(){
-      controllerPath = this.$config.controllerPath
       const _this = this
       axios.get(controllerPath + '/category/page/1/10').then(function (resp){
         _this.CategoryData = resp.data.content

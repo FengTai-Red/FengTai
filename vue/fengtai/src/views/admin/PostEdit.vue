@@ -53,11 +53,11 @@
   import '@wangeditor/editor/dist/css/style.css' // 引入 css
   import { onBeforeUnmount, shallowRef} from 'vue'
   import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-  var controllerPath = ''
+  const appConfig = require("../../config")
+  var controllerPath =appConfig.default.controllerPath
   
   export default {
     created(){
-      controllerPath = this.$config.controllerPath
       const _this = this
       axios.get(controllerPath + '/post/' + this.$route.query.id).then(function(resp){
         _this.updatePost = resp.data;
@@ -70,12 +70,12 @@
       })
     },
     components: { Editor, Toolbar },
+
     setup() {
       // 编辑器实例，必须用 shallowRef
       const editorRef = shallowRef()
       const toolbarConfig = {}
       const editorConfig = { placeholder: '请输入内容...', MENU_CONF: {}}
-
       // 组件销毁时，也及时销毁编辑器
       onBeforeUnmount(() => {
           const editor = editorRef.value
@@ -85,9 +85,7 @@
 
       editorConfig.MENU_CONF['uploadImage'] = {
           // 上传图片的配置
-          // server: 'http://127.0.0.1:8181/admin/post/img/upload',
-          // server: 'http://192.168.2.128:8181/admin/post/img/upload',
-          server: 'http://8.218.53.237:81/admin/post/img/upload',
+          server: controllerPath + '/admin/post/img/upload',
           fieldName: 'file',
           maxFileSize: 10 * 1024 * 1024, // 1M
       }

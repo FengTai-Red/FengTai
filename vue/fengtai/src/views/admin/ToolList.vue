@@ -60,7 +60,7 @@
             <span style="width: 300px;">
               <el-upload class="upload-demo" 
                 ref="upload" 
-                action="http://8.218.53.237:81/admin/tool/upload" 
+                :action="FileUpPath"
                 name="file"
                 :auto-upload="false" 
                 :limit="1" 
@@ -93,10 +93,12 @@
 <script>
   import axios from "axios"
   var controllerPath = ''
+  const appConfig = require("../../config");
+  var controllerPath =appConfig.default.controllerPath;
+
   export default {
     name: "Upload",
     created(){
-      controllerPath = this.$config.controllerPath
       const _this = this
       axios.get(controllerPath + '/tool/page/1/10').then(function (resp){
         _this.toolData = resp.data.content
@@ -113,6 +115,7 @@
         upDialogVisible: false,  // 修改窗
         addDialogVisible: false,  // 新增窗
         isFileEmpty: true,  // 文件是否上传
+        FileUpPath: controllerPath + "/admin/tool/upload",
         updateTool: {
           name: '',
           description: '',

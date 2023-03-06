@@ -33,7 +33,6 @@ public class ToolController {
     
     @Autowired
     private ToolServiceImpl toolService;
-    @Value("${gorit.file.root.path}")  // 将 yml 中的自定义配置注入到这里
 
     /**
      * 查询所有Tool

@@ -35,10 +35,11 @@
   import '@/assets/css/components/markDownPrism.css'
   import '@/assets/css/components/markDownView.css'
   import axios from "axios";
-  var controllerPath = '';
+  const appConfig = require("../../config");
+  var controllerPath =appConfig.default.controllerPath;
+  
   export default {
     created(){
-      controllerPath = this.$config.controllerPath
       const _this = this
       axios.get(controllerPath + '/post/' + this.$route.query.id).then(function(resp){
         _this.postData = resp.data;

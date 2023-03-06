@@ -53,11 +53,12 @@
 <script>
   import { useRouter } from 'vue-router'
   import axios from "axios"
-  var controllerPath = ''
+  const appConfig = require("../../config");
+  var controllerPath =appConfig.default.controllerPath;
+  
   var pageNum = 1;
   export default {
     created(){
-      controllerPath = this.$config.controllerPath
       const _this = this
       axios.get(controllerPath + '/post/published/page/1/6').then(function (resp){
         _this.blogData = resp.data.content;

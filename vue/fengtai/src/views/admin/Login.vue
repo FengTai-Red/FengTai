@@ -37,11 +37,12 @@
 
 <script>
   import axios from "axios";
-  var controllerPath = '';
+  const appConfig = require("../../config");
+  var controllerPath =appConfig.default.controllerPath;
+
   export default {
     name: "Login",
     created(){
-      controllerPath = this.$config.controllerPath
     },
     data() {
       return {
